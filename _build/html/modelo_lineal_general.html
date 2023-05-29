@@ -1,0 +1,676 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Modelo Linea General &#8212; Apuntes Estadísticos con Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'modelo_lineal_general';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Regresión Lineal Simple" href="regresion_lineal_simple.html" />
+    <link rel="prev" title="Regresion Lineal" href="regresionDefs.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Apuntes Estadísticos con Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Estadísticas con Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="probability.html">Probabilidad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalDist.html">Distribución Normal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chi_cuadrado.html">Distribución Chi-cuadrado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_t.html">Distribución t de <i>Student</i></a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_F.html">Distribución F</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_media_muestral.html">Distribución de la Media Muestral.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresionDefs.html">Regresion Lineal</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Modelo Linea General</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresion_lineal_simple.html">Regresión Lineal Simple</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fmodelo_lineal_general.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/modelo_lineal_general.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modelo Linea General</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regresion-lineal-multiple">Regresión Líneal Multiple</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coeficientes">Coeficientes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecuaciones-normales">Ecuaciones Normales</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelo-linea-general">
+<h1>Modelo Linea General<a class="headerlink" href="#modelo-linea-general" title="Permalink to this heading">#</a></h1>
+<section id="regresion-lineal-multiple">
+<h2>Regresión Líneal Multiple<a class="headerlink" href="#regresion-lineal-multiple" title="Permalink to this heading">#</a></h2>
+<p>A partir de un conjunto de  <i>k</i> variables:
+<span class="math notranslate nohighlight">\(x_1, x_2, ..., x_k\)</span>, con alguna influencia sobre sobre la variable
+respuesta <span class="math notranslate nohighlight">\(Y\)</span>, se supone un modelo, según el cual, la <i>i_ésima</i>
+observación es descrita por::</p>
+<div class="math notranslate nohighlight">
+\[Y_i=\beta_0+\beta_1 x_{i1}+\beta_2 x_{i2}+...+\beta_k x_{kn}+ \epsilon_i\]</div>
+<p>donde <span class="math notranslate nohighlight">\(i=1, 2, ..., n\)</span></p>
+<p>Las variables <span class="math notranslate nohighlight">\(x_1, x_2, ..., x_k\)</span>,, son un conjunto de valores fijos,
+<span class="math notranslate nohighlight">\(\epsilon_i\)</span> es el error aleatorio no observable asociado con <span class="math notranslate nohighlight">\(Y_i\)</span> y
+<span class="math notranslate nohighlight">\(\beta_0, \beta_1, \beta_2, ..., \beta_k\)</span>, es decir, <span class="math notranslate nohighlight">\(m=k+1\)</span>
+parámetros lineales desconocidos.</p>
+<p>La ecuación arriba descrita recibe por nombre <i>modelo lineal
+general</i> y dá origen a lo que se conoce como <i>regresión
+lineal múltiple</i>.</p>
+<p>Según sea el diseño de recolección de datos; las observaciones
+<span class="math notranslate nohighlight">\(Y_i\)</span> son variables aleatorias independientes, normalmente
+distribuidas con:</p>
+<div class="math notranslate nohighlight">
+\[E(Y_i)=\beta_0+\beta_1 x_{i1}+...+\beta_k x_{ik},\]</div>
+<div class="math notranslate nohighlight">
+\[Var(Y_i)=\sigma^2;\;\;\;i=1, 2, ..., n\]</div>
+<p>Sobre la base de este supuesto, las distribución de los errores es:</p>
+<div class="math notranslate nohighlight">
+\[\epsilon_i \sim N(0, \sigma^2)\]</div>
+<p>Esto es, los errores pertenecen a una distribución normal, con media
+cero y varianza constante <span class="math notranslate nohighlight">\(\sigma^2\)</span>. Este modelo representa un
+hiperplano, donde el parametro <span class="math notranslate nohighlight">\(\beta_0\)</span> es el valor de respuesta
+media cuando todas las variables independientes tienen valor cero.</p>
+<p>El paŕámetro <span class="math notranslate nohighlight">\(\beta_j\)</span> (<span class="math notranslate nohighlight">\(j=1, 2, ..., k\)</span>) es
+el efecto parcial de <span class="math notranslate nohighlight">\(x_j\)</span> sobre la respuesta <span class="math notranslate nohighlight">\(Y\)</span>; en otras
+palabras, es el cambio en la respuesta promedio para un cambio de una unidad en la
+correspondiente variable de predicción <span class="math notranslate nohighlight">\(x_j\)</span>, manteniendo las
+demás variables de predicción fijas.</p>
+<section id="coeficientes">
+<h3>Coeficientes<a class="headerlink" href="#coeficientes" title="Permalink to this heading">#</a></h3>
+<p>A partir de una muestra aleatoria de observaciones <span class="math notranslate nohighlight">\(Y_1, Y_2, ...
+Y_n\)</span>, que son respuestas a  <span class="math notranslate nohighlight">\(x_{11}, x_{12}, ..., x_{1k}, x_{21}, x_{22}, ..x_{2k}, ...
+x_{n1}, x_{n2}, ...\)</span>
+<span class="math notranslate nohighlight">\(x_{n1}, x_{n2}, ...., x_{nk}\)</span>, respectivamente, se tendrán las
+siguientes ecuaciones:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{matrix}
+Y_1=\beta_0+\beta_1 x_{11} +\beta_2 x_{12}+...+\beta_k x_{1k} + \epsilon_i\\
+Y_2=\beta_0+\beta_1 x_{21} +\beta_2 x_{22}+...+\beta_k x_{2k} + \epsilon_i\\
+\vdots\\
+Y_n=\beta_0+\beta_1 x_{n1} +\beta_2 x_{n2}+...+\beta_k x_{nk} + \epsilon_i
+\end{matrix}
+\end{split}\]</div>
+<p>Por mayor comodidad, estas ecuaciones usualmente se expresan  en términos
+matriciales:</p>
+<div class="math notranslate nohighlight">
+\[Y=X\beta+\epsilon\]</div>
+<p>Donde:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}Y=\begin{bmatrix} Y_1\\ Y_2\\ \vdots\\Y_n\end{bmatrix},\;\;
+X=\begin{bmatrix} 1 &amp; x_{11}&amp; x_{12}&amp;...&amp;x_{1k} \\ 
+1 &amp; x_{21} &amp; x_{22}&amp;...&amp;x_{2k} \\ 
+\vdots &amp; \vdots &amp;\vdots&amp;...&amp;\vdots\\
+1 &amp; x_{n1} &amp; x_{n2}&amp;...&amp;x_{nk} \end{bmatrix},\;\;
+\beta=\begin{bmatrix}
+\beta_0\\ \beta_1\\ \vdots\\ \beta_k
+\end{bmatrix},\;\;\epsilon=\begin{bmatrix}\epsilon_1\\
+\epsilon_2\\
+\vdots\\
+\epsilon_n
+\end{bmatrix}
+\end{split}\]</div>
+<p>En el contexto de la regresión múltiple, <span class="math notranslate nohighlight">\(X\)</span> es una matrix de
+dimensiones <i>nxm</i>, para las variables de
+predicción; <span class="math notranslate nohighlight">\(\beta\)</span> es un vector de parámetros desconocidos
+de <i>kx1</i>, mientras que <span class="math notranslate nohighlight">\(Y\)</span> y <span class="math notranslate nohighlight">\(\epsilon\)</span> son vectores <i>nx1</i>
+que contienen la variable respuesta y los errores.</p>
+<p>Si se cumplen los supuestos de los <i>Mínimos Cuadrados</I>,
+las distribuciones de <span class="math notranslate nohighlight">\(Y\)</span>  y <span class="math notranslate nohighlight">\(\epsilon\)</span>, son:</p>
+<div class="math notranslate nohighlight">
+\[Y \sim N(X\beta, \sigma^2I)\]</div>
+<div class="math notranslate nohighlight">
+\[\epsilon \sim N(0, \sigma^2I)\]</div>
+<p>Donde:</p>
+<div class="math notranslate nohighlight">
+\[Var(Y)=Var(\epsilon)=\sigma^2I\]</div>
+<p>Lo que indica que <span class="math notranslate nohighlight">\(Y\)</span> y <span class="math notranslate nohighlight">\(\epsilon\)</span>, son vectores de variables
+aleatorias independientes normalmente distribuidas.</p>
+<section id="ecuaciones-normales">
+<h4>Ecuaciones Normales<a class="headerlink" href="#ecuaciones-normales" title="Permalink to this heading">#</a></h4>
+<div class="math notranslate nohighlight">
+\[(X'X)B=X'Y\]</div>
+<p>SIendo <span class="math notranslate nohighlight">\(X\)</span>, una matriz de <i>nxk</i>, entonces tomando
+en cuenta sus dimensiones, la expresión sería:</p>
+<div class="math notranslate nohighlight">
+\[(X_{(kxn)}^{'} X_{(nxk)})B_{(kx1)}=X_{(kxn)}^{'} Y_{(nx1)}\]</div>
+<p>El producto matricial <span class="math notranslate nohighlight">\((X'X)\)</span> genera una matriz cuadrada
+(<span class="math notranslate nohighlight">\((X'X)_{(kxk)}\)</span>) de dimensiones <i>kxk</i>,
+es decir tiene inversa, y la solución para <span class="math notranslate nohighlight">\(B\)</span> es:</p>
+<div class="math notranslate nohighlight">
+\[B=(X'X)^{-1}X'Y\]</div>
+<p>Y la ecuación estimada de regresión:</p>
+<div class="math notranslate nohighlight">
+\[\hat{Y}=XB\]</div>
+<p>El vector <span class="math notranslate nohighlight">\(\hat{Y}\)</span> (<i>nx1</i> ) contiene los valores
+estimados para la respuesta promedio corrrespondiente a las
+<i>n</i> observaciones presentes en las variables
+de predicción.</p>
+<ul class="simple">
+<li><p>Cada coeficiente <span class="math notranslate nohighlight">\(B_j\)</span> tiene distribución normal con media
+<span class="math notranslate nohighlight">\(E(B_j)=\beta_j;\;\;\;j=0, 1, 2, ..., k\)</span> y varianza <span class="math notranslate nohighlight">\(Var(B_j)=c(j + 1)\sigma^2,\;\;
+j=0, 1, 2, ...,k\)</span>, donde las  <span class="math notranslate nohighlight">\(c(j + 1)\)</span> es el elemento de
+la  diagonal <span class="math notranslate nohighlight">\((j + 1)\)</span> de  <span class="math notranslate nohighlight">\((X'X)^{-1}\)</span></p></li>
+<li><p>La <span class="math notranslate nohighlight">\(Cov(B_i, B_j)=c(i + 1)(c + j)\sigma^2,\;\;i \neq j = 0, 1, 2, ...k\)</span>,
+donde <span class="math notranslate nohighlight">\(c(i + 1)(j + 1)\)</span> es el elemento de <span class="math notranslate nohighlight">\((X'X)^{-1}\)</span> localizado
+en la fila <span class="math notranslate nohighlight">\((i + 1)\)</span> y la columna <span class="math notranslate nohighlight">\((j + 1)\)</span>, para <span class="math notranslate nohighlight">\(i \neq j\)</span>.</p></li>
+</ul>
+<p>Un estimador insesgado de la varianza del error es:</p>
+<div class="math notranslate nohighlight">
+\[s^2=\frac{Y'Y - B'X'Y}{{n - k - 1}}\]</div>
+<p>Donde el numerador es la suma de los cuadrados de los
+residuos. El denominador es igual al número de observaciones
+menos el número de parámetros del modelo.</p>
+<p>Un estimador de la varianza para <span class="math notranslate nohighlight">\(B_j\)</span> es:</p>
+<div class="math notranslate nohighlight">
+\[S^2(B_j)=c(j + 1)S^2\]</div>
+<p>La siguiente expresión representa una variable aleatoria
+t de <i>Student</i>, con <span class="math notranslate nohighlight">\(n - k - 1\)</span> grados de libertad:</p>
+<div class="math notranslate nohighlight">
+\[\frac{(B_j - \beta_j)}{{S(B_j)}}\]</div>
+<p>Y un intervalo de confianza del <span class="math notranslate nohighlight">\(100(1 - \alpha )\% \)</span> para el
+parámetro <span class="math notranslate nohighlight">\(\beta_j\)</span> es.</p>
+<div class="math notranslate nohighlight">
+\[b_j \pm t_{(1-\alpha)/2, (n-k-1)}S(B_j), \;\;\;j=0, 1, 2, ..., k\]</div>
+<p>Para probar una hipótesis nula de la forma.</p>
+<div class="math notranslate nohighlight">
+\[H_0:\beta_j=0\]</div>
+<p>Se utiliza la t de <i>Student</i>:</p>
+<div class="math notranslate nohighlight">
+\[T=\frac{B_j}{{S(B_j)}}, \;\;\;j=0, 1, 2, ..., k\]</div>
+<p>Con <span class="math notranslate nohighlight">\(n - k - 1\)</span> grados de libertad.</p>
+<p>La distribución <i>Fisher (F)</i> se utiliza para los contrastes
+del tipo <i>bondad del ajuste</i>, para probar
+si todos los parámetros son cero, exceptuando al intercepto:</p>
+<div class="math notranslate nohighlight">
+\[H_0:\beta_1=\beta_2=... =\beta_k\]</div>
+<p style="text-align:center">vs</p>
+<div class="math notranslate nohighlight">
+\[H_1:\beta_j \neq 0,\;para\;algun\;j=1, 2, ..., k\]</div>
+<p>El estadístico de contraste sera, el cociente entre el cuadrado
+medio de la regresión entre el cuadrado medio del error:</p>
+<div class="math notranslate nohighlight">
+\[F=\frac{CMR}{{CME}}=\frac{\frac{SCE}{{k}}}{{\frac{SCR}{{n-k-1}}}}\]</div>
+<p>Siendo:
+STC: la sumatoria total de cuadrados.</p>
+<div class="math notranslate nohighlight">
+\[STC=\sum_{i=1}^n(y_i-\bar{y})^2\]</div>
+<p>SCE. Sumatoria de cuadrados del Error</p>
+<div class="math notranslate nohighlight">
+\[SCE=\sum_{i=1}^2(y_i -\hat{y})^2\]</div>
+<p>SCR: Sumatoria de cuadrados de la regresión.</p>
+<div class="math notranslate nohighlight">
+\[SCR=\sum_{i=1}^n (\hat{y} - \bar{y})^2\]</div>
+<p>Además: <span class="math notranslate nohighlight">\(SCT=SCE+SCR\)</span></p>
+<p>La proporción de variación total de las observaciones con
+respecto a su media, atribuible a la ecuación de regresión
+estimada; es decir, el coeficiente de determinación.</p>
+<div class="math notranslate nohighlight">
+\[R^2=\frac{SCR}{{STC}}=1 - \frac{SCE}{{STC}}\]</div>
+</section>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="regresionDefs.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Regresion Lineal</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="regresion_lineal_simple.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Regresión Lineal Simple</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regresion-lineal-multiple">Regresión Líneal Multiple</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#coeficientes">Coeficientes</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#ecuaciones-normales">Ecuaciones Normales</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Latesco
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

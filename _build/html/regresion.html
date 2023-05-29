@@ -1,0 +1,921 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Modelo de Regresión Lineal Simple &#8212; Estadísticas</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regresion';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Estadísticas Básicas" href="intro.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Estadísticas</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Estadísticas Básicas
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Modelo de Regresión Lineal Simple</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fregresion.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/regresion.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Modelo de Regresión Lineal Simple</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#george-canavos">George Canavos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datos-de-calificaciones-promedio-cp-y-salario-inicial-miles-de-dolares">Datos de calificaciones promedio (CP) y salario inicial (miles de dólares)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimacion-por-minimos-cuadrados-para-el-modelo-lineal-simple">Estimación por Mínimos Cuadrados para el Modelo Lineal Simple</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#salario-estimado">Salario Estimado</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="modelo-de-regresion-lineal-simple">
+<h1>Modelo de Regresión Lineal Simple<a class="headerlink" href="#modelo-de-regresion-lineal-simple" title="Permalink to this heading">#</a></h1>
+<section id="george-canavos">
+<h2>George Canavos<a class="headerlink" href="#george-canavos" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span> <span class="k">as</span> <span class="nn">m</span>
+<span class="kn">import</span> <span class="nn">statistics</span> <span class="k">as</span> <span class="nn">stats</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">collections</span> <span class="k">as</span> <span class="n">mc</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">jupyterthemes</span> <span class="kn">import</span> <span class="n">jtplot</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">6</span>
+<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">collections</span> <span class="k">as</span> <span class="n">mc</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="ne">----&gt; </span><span class="mi">6</span> <span class="kn">from</span> <span class="nn">jupyterthemes</span> <span class="kn">import</span> <span class="n">jtplot</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;jupyterthemes&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">matplotlib</span> inline
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jtplot</span><span class="o">.</span><span class="n">style</span><span class="p">(</span><span class="n">theme</span><span class="o">=</span><span class="s1">&#39;monokai&#39;</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="s1">&#39;notebook&#39;</span><span class="p">,</span> <span class="n">ticks</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;dark_background&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="datos-de-calificaciones-promedio-cp-y-salario-inicial-miles-de-dolares">
+<h2>Datos de calificaciones promedio (CP) y salario inicial (miles de dólares)<a class="headerlink" href="#datos-de-calificaciones-promedio-cp-y-salario-inicial-miles-de-dolares" title="Permalink to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">CP</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.95</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">,</span> <span class="mf">3.40</span><span class="p">,</span> <span class="mf">3.60</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">,</span> <span class="mf">2.85</span><span class="p">,</span> <span class="mf">3.10</span><span class="p">,</span> <span class="mf">2.85</span><span class="p">,</span>
+                <span class="mf">3.05</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.75</span><span class="p">,</span> <span class="mf">3.10</span><span class="p">,</span> <span class="mf">3.15</span><span class="p">,</span> <span class="mf">2.95</span><span class="p">,</span> <span class="mf">2.75</span><span class="p">]</span>
+
+<span class="n">salario_inicial</span> <span class="o">=</span> <span class="p">[</span><span class="mf">18.5</span><span class="p">,</span> <span class="mf">20.0</span><span class="p">,</span> <span class="mf">21.1</span><span class="p">,</span> <span class="mf">22.4</span><span class="p">,</span> <span class="mf">21.2</span><span class="p">,</span> <span class="mf">15.0</span><span class="p">,</span> <span class="mf">18.0</span><span class="p">,</span>
+                            <span class="mf">18.8</span><span class="p">,</span> <span class="mf">15.7</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">15.5</span><span class="p">,</span> <span class="mf">17.2</span><span class="p">,</span> <span class="mf">19.0</span><span class="p">,</span><span class="mf">17.2</span><span class="p">,</span> <span class="mf">16.8</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">salario_inicial</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>
+          <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;white&#39;</span><span class="p">)</span>
+<span class="c1"># sns.scatterplot(x=CP, y=salario_inicial, s=60, ax=ax,</span>
+<span class="c1">#               legend=False, alpha=0.8)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.PathCollection at 0x7f0c7df7cc70&gt;
+</pre></div>
+</div>
+<img alt="_images/0b38dcce9a19cd5470ca4cdb233e5c63349166c8a375e2ec6c74c4a8988e315d.png" src="_images/0b38dcce9a19cd5470ca4cdb233e5c63349166c8a375e2ec6c74c4a8988e315d.png" />
+</div>
+</div>
+</section>
+<section id="estimacion-por-minimos-cuadrados-para-el-modelo-lineal-simple">
+<h2>Estimación por Mínimos Cuadrados para el Modelo Lineal Simple<a class="headerlink" href="#estimacion-por-minimos-cuadrados-para-el-modelo-lineal-simple" title="Permalink to this heading">#</a></h2>
+<p>Se supone un modelo de forma:
+$<span class="math notranslate nohighlight">\(Y_i=\beta_0 + \beta_1x_i+ \epsilon_i;\;\;i=1,2, ...,n\;\;\;\;\;(1)\)</span>$</p>
+<p>Cada observación <span class="math notranslate nohighlight">\(Y_i\)</span> es una variable aleatoria que es la suma de dos componentes; el término no aleatorio <span class="math notranslate nohighlight">\(\beta_0+\beta_1x_i\)</span>, y la componente aleatoria <span class="math notranslate nohighlight">\(\epsilon_i\)</span>. Si <span class="math notranslate nohighlight">\(e_i\)</span> tuviera valor cero, la observación <span class="math notranslate nohighlight">\(Y_i\)</span> se encontraría precisamente sobre la línea de regresión <span class="math notranslate nohighlight">\(\beta_0+\beta_1x_i\)</span>. Por lo tanto, <span class="math notranslate nohighlight">\(e_i\)</span> es la distancia vertical de la observación a la línea de regresión. Dado que se supone:</p>
+<div class="math notranslate nohighlight">
+\[E(\epsilon_i)=0;\;Var(\epsilon_i)=\sigma^2;\;\;i=1, 2, ...,n.\]</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span> y
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[Cov(\epsilon_i, \epsilon_i)=0\;\;\;\;\;i\neq j\]</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>y
+</pre></div>
+</div>
+<div class="math notranslate nohighlight">
+\[Var(Y_i)=Var(\beta_0+\beta_1x_1+\epsilon_i)=Var(\epsilon_i)=\sigma^2.\]</div>
+<p>El último resultado surge del hecho de que la varianza de una variable aleatoria no varía con respecto a la localización; en este caso, el <i>corrimiento</i> en localización viene dado por el término no aleatorio <span class="math notranslate nohighlight">\(\beta_0+\beta_1x_i\)</span>. Por lo tanto, en términos reales, lo que se supone es que para cada calificación promedio <span class="math notranslate nohighlight">\(x\)</span> existe una distribución de probabilidad para los salarios iniciales cuya media es una función líneal de <span class="math notranslate nohighlight">\(x\)</span> y cuya varianza es la mísma para toda <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>Para obtener los estimadores de mínimos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span> t <span class="math notranslate nohighlight">\(\beta_1\)</span>, se generalizará un conjunto de datos consistente en <span class="math notranslate nohighlight">\(n\)</span> pares: <span class="math notranslate nohighlight">\((y_1, x_1), (y_2, x_2),..., (y_n, x_n)\)</span>, donde los valores de <span class="math notranslate nohighlight">\(y\)</span> son las observaciones de la variable aleatoria respuesta. El método de mínimos cuadrados considera la desviación de la observación <span class="math notranslate nohighlight">\(Y_i\)</span> de su valor medio y determina los valores de <span class="math notranslate nohighlight">\(\beta_0\)</span> y <span class="math notranslate nohighlight">\(\beta_1\)</span> que minimizan la suma de los cuadrados de estas desviaciones. La <i>i-esima</i> desviación o error es:
+$<span class="math notranslate nohighlight">\(\epsilon_i=Y_i-(\beta_0+\beta_1x_i)\)</span>$</p>
+<p>Y la suma de los cuadrados de los errores es:
+$<span class="math notranslate nohighlight">\(\sum_{i=1}^{{n}}e_i^2=\sum_{i=1}^{{n}}(Y_i+\beta_0+\beta_1x_i)^2\;\;\;\;\;\;\;(2)\)</span>$</p>
+<p>Los estimadores de mínímos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span> y <span class="math notranslate nohighlight">\(\beta_1\)</span>, se obtinen mediante la diferenciación de <span class="math notranslate nohighlight">\((2)\)</span>.</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial\sum \epsilon_i^2}{{\partial\beta_0}}=-2\sum(Y_i-b_0-b_1x_i)=0\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\partial\sum \epsilon_i^2}{{\partial\beta_1}}=-2\sum x_i(Y_i-b_0-b_1x_i)=0\]</div>
+<p>Siendo <span class="math notranslate nohighlight">\(b_0\)</span> y <span class="math notranslate nohighlight">\(b_1\)</span> los estimadores de mínimos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span>  <span class="math notranslate nohighlight">\(\beta_1\)</span>, respectivamente. Al simplificar y distribuir las sumas en las expresiones de arriba:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{{n}}Y_i=nb_0+b_1\sum_{i=1}^{{n}}x_i;\;\;\;\;\;\;(3)\]</div>
+<p>y</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{{n}}x_iY_i=b_0\sum_{i=1}^{{n}}x_i+b_1\sum_{i=1}^{{n}}x_i^2;\;\;\;\;\;\;(4)\]</div>
+<p>Las expresiones arriba expuestas son las que se conocen como las <i>ecuaciones normales</i>; al dividir <span class="math notranslate nohighlight">\((3)\)</span> por <span class="math notranslate nohighlight">\(n\)</span> (dadas las realizaciones <span class="math notranslate nohighlight">\(y_1, y_2, ..., y_n\)</span>) se obtiene:
+$<span class="math notranslate nohighlight">\(\frac{\sum y_i}{{n}}=b_0+b_1\frac{\sum x_i}{{n}}\)</span>$</p>
+<p>Entonces el estimador de mínimos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span> es:
+$<span class="math notranslate nohighlight">\(b_0=\frac{\sum_{i=1}^{{n}} y_i}{{n}}-b_1\frac{\sum_{i=1}^{{n}}x_i}{{n}}=\bar{y} - b_1\bar{x}\;\;\;\;\;\;\;(5)\)</span>$</p>
+<p>Al sustituir <span class="math notranslate nohighlight">\((5)\)</span> en <span class="math notranslate nohighlight">\((4)\)</span>, se obtiene:</p>
+<div class="math notranslate nohighlight">
+\[\sum x_iy_i=\left (\begin{array}{c}\frac{\sum y_i}{{n}} - b_1\frac{\sum x_i}{{n}}\end{array} \right ) \sum x_i + b_1\sum x_i^2\]</div>
+<p>Después de resolver para <span class="math notranslate nohighlight">\(b_1\)</span> esa expresión se reduce a:</p>
+<div class="math notranslate nohighlight">
+\[b_1=\frac{\sum_{i=1}^{{n}}x_i y_i - \frac{\left (\begin{array}{c}\sum_{i=1}^n x_i\end{array} \right ) \left ( \begin{array}{c}\sum_{i=1}^n y_i \end{array} \right )}{{n}}}{{\sum_{i=1}^n x_i^2- \frac{(\sum_{i=1}^n x_i)^2}{{n}}}}=\frac{\sum_{i=1}^n (x_i - \bar{x})(y_i-\bar{y})}{{\sum_{i=1}^n (x_i- \bar{x})^2}}\;\;\;\;(6)\]</div>
+<p>Los valores dados para <span class="math notranslate nohighlight">\((5)\)</span> y <span class="math notranslate nohighlight">\((6)\)</span> (<span class="math notranslate nohighlight">\(b_1\)</span> y <span class="math notranslate nohighlight">\(b_0\)</span>) son los que minimizan la suma de los cudrados de los errores.</p>
+<p>La recta de regresión estimada para el modelo <span class="math notranslate nohighlight">\((1)\)</span> es:
+$<span class="math notranslate nohighlight">\(\hat{Y_i}=b_0+b_1x_i\)</span>$</p>
+<p>Donde si se sustituye <span class="math notranslate nohighlight">\((5)\)</span> por <span class="math notranslate nohighlight">\(b_0\)</span> se tiene:
+$<span class="math notranslate nohighlight">\(\hat{Y_i} = \bar(Y) - b_1\hat{x} + b_1 x_i \\
+= \bar{Y} + b_1(x_i- \bar{x})\)</span>$</p>
+<p>Basados en la expresión <span class="math notranslate nohighlight">\((2)\)</span>, la diferencia entre la realización <span class="math notranslate nohighlight">\(y_i\)</span> y el valor estimado <span class="math notranslate nohighlight">\(\hat{y_i}\)</span> es un estimador del error correspondiente; el cual se conoce como el <i>i-ésimo</i> residual y se denota por:
+$<span class="math notranslate nohighlight">\(\epsilon_i=y_i - \hat{y_i}\)</span>$</p>
+<p>Los residuos <span class="math notranslate nohighlight">\(\epsilon_1, \epsilon_2, ..., \epsilon_n\)</span> son importantes debido a que proporcionan información sobre lo que puede faltar en el modelo.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datos</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="n">CP</span><span class="p">,</span>
+         <span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="n">salario_inicial</span><span class="p">,</span>
+        <span class="s1">&#39;xy&#39;</span><span class="p">:[</span><span class="n">x</span><span class="o">*</span><span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">salario_inicial</span><span class="p">)],</span>
+        <span class="s1">&#39;x2&#39;</span><span class="p">:[</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">CP</span><span class="p">],</span>
+        <span class="s1">&#39;y2&#39;</span><span class="p">:[</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">salario_inicial</span><span class="p">]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2">&quot;</span>
+      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;---------------------------------------------------&#39;</span><span class="p">)</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xy</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xy</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">datos</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2">&quot;</span>
+    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="n">xy</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="n">x2</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> <span class="nb">round</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="n">y2</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">)))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x           y           xy          x2          y2         
+---------------------------------------------------
+2.95       18.5       54.58      8.7        342.25    
+3.2        20.0       64.0       10.24      400.0     
+3.4        21.1       71.74      11.56      445.21    
+3.6        22.4       80.64      12.96      501.76    
+3.2        21.2       67.84      10.24      449.44    
+2.85       15.0       42.75      8.12       225.0     
+3.1        18.0       55.8       9.61       324.0     
+2.85       18.8       53.58      8.12       353.44    
+3.05       15.7       47.88      9.3        246.49    
+2.7        14.4       38.88      7.29       207.36    
+2.75       15.5       42.62      7.56       240.25    
+3.1        17.2       53.32      9.61       295.84    
+3.15       19.0       59.85      9.92       361.0     
+2.95       17.2       50.74      8.7        295.84    
+2.75       16.8       46.2       7.56       282.24    
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sum_x</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">])</span>
+<span class="n">sum_y</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">])</span>
+<span class="n">sum_xy</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;xy&#39;</span><span class="p">])</span>
+<span class="n">sum_x2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<span class="n">sum_y2</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">datos</span><span class="p">[</span><span class="s1">&#39;y2&#39;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b1</span> <span class="o">=</span> <span class="p">(</span><span class="n">sum_xy</span> <span class="o">-</span> <span class="p">(</span><span class="n">sum_x</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">sum_y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">15</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">sum_x2</span> <span class="o">-</span> <span class="n">sum_x</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">b1</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.118510158013954
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b0</span> <span class="o">=</span> <span class="n">sum_y</span> <span class="o">/</span> <span class="mi">15</span> <span class="o">-</span> <span class="n">b1</span> <span class="o">*</span> <span class="n">sum_x</span> <span class="o">/</span> <span class="mi">15</span>
+<span class="n">b0</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-6.626937547029094
+</pre></div>
+</div>
+</div>
+</div>
+<p>Es decir el cálculo es, simplemente:</p>
+<div class="math notranslate nohighlight">
+\[b_1 = \frac{830.425 - \frac{(45.6)(270.8)}{{15}}}{{139.51 - \frac{(45.6)^2}{{15}}}}=8.12\]</div>
+<p>y</p>
+<div class="math notranslate nohighlight">
+\[b_0= \frac{270.8}{{15}} - (8.12) \frac{45.6}{{15}} = -6.63\]</div>
+<p>Sim embargo, el paquete <i>statistics</i> ofrece medios más cómodos de obtener ese resultado.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rl</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">linear_regression</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">salario_inicial</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rl</span><span class="o">.</span><span class="n">slope</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>8.118510158013544
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rl</span><span class="o">.</span><span class="n">intercept</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>-6.62693754702784
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="salario-estimado">
+<h2>Salario Estimado<a class="headerlink" href="#salario-estimado" title="Permalink to this heading">#</a></h2>
+<p>Los valores estimados para el <i>salario inicial</i> serán entonces el resultado de la suma algebraica del valor del intercepto <span class="math notranslate nohighlight">\(b_0\)</span> más el producto del coeficiente de regresión <span class="math notranslate nohighlight">\(b_1\)</span> por cada uno de los valores de <i>CP</i>; esta operación producirá una lista de valores estimados de la misma longitud a la lista de valores iniciales.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">salario_estimado</span> <span class="o">=</span> <span class="p">[</span><span class="n">rl</span><span class="o">.</span><span class="n">intercept</span> <span class="o">+</span> <span class="n">rl</span><span class="o">.</span><span class="n">slope</span> <span class="o">*</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">CP</span><span class="p">]</span>
+
+<span class="n">salario_estimado</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">est</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">est</span> <span class="ow">in</span> <span class="n">salario_estimado</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Los residuos se obtienen a partir de la diferencia entre los valores reales y los estimados.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">residuos</span> <span class="o">=</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="n">s1</span> <span class="o">-</span> <span class="n">s2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">for</span> <span class="n">s1</span><span class="p">,</span> <span class="n">s2</span> <span class="ow">in</span> 
+            <span class="nb">zip</span><span class="p">(</span><span class="n">salario_inicial</span><span class="p">,</span> <span class="n">salario_estimado</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cuadrado_residuos</span> <span class="o">=</span> <span class="p">[</span><span class="n">res</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="n">residuos</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dest</span> <span class="o">=</span><span class="p">{</span><span class="s1">&#39;y_est&#39;</span><span class="p">:</span> <span class="n">salario_estimado</span><span class="p">,</span>
+      <span class="s1">&#39;residuos&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">salario_inicial</span><span class="p">,</span> <span class="n">salario_estimado</span><span class="p">)],</span>
+      <span class="s1">&#39;residuos2&#39;</span><span class="p">:[(</span><span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">salario_inicial</span><span class="p">,</span> <span class="n">salario_estimado</span><span class="p">)]}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">datos2</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="o">**</span><span class="n">datos</span><span class="p">,</span> <span class="o">**</span><span class="n">dest</span><span class="p">)</span>
+<span class="c1">#datos2.keys()</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xy</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">yest</span><span class="p">,</span> <span class="n">resid</span><span class="p">,</span> <span class="n">resid2</span>  <span class="o">=</span> <span class="n">datos2</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="n">yest</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;y_est&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2"> </span><span class="si">{:&lt;11}</span><span class="s2">&quot;</span>
+      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="s1">&#39;xy&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;y2&#39;</span><span class="p">,</span> <span class="s1">&#39;yest&#39;</span><span class="p">,</span> <span class="s1">&#39;Residuo&#39;</span><span class="p">,</span> <span class="s1">&#39;ResidCuad&#39;</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------&#39;</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span> 
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">xy</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">yest</span><span class="p">,</span> <span class="n">resid</span><span class="p">,</span> <span class="n">resid2</span>  <span class="o">=</span> <span class="n">datos2</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">):</span>
+    <span class="c1">#x, y, xy, x2, y2, yest, resid, resid2 = datos2.keys()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2">&quot;</span>
+    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">x</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">y</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">xy</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">x2</span><span class="p">][</span><span class="n">i</span><span class="p">],</span> <span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">y2</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">yest</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">resid</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">datos2</span><span class="p">[</span><span class="n">resid2</span><span class="p">][</span><span class="n">i</span><span class="p">],</span><span class="mi">2</span><span class="p">),</span>
+           <span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;--------------------&#39;</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;10}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2"> </span><span class="si">{:&lt;16}</span><span class="s2">&quot;</span>
+    <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">sum_x</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">sum_y</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="n">sum_xy</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">sum_x2</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> 
+            <span class="nb">round</span><span class="p">(</span><span class="n">sum_y2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">dest</span><span class="p">[</span><span class="s1">&#39;y_est&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">dest</span><span class="p">[</span><span class="s1">&#39;residuos&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">),</span>
+            <span class="nb">round</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">dest</span><span class="p">[</span><span class="s1">&#39;residuos2&#39;</span><span class="p">]),</span><span class="mi">2</span><span class="p">),</span>
+           <span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>x           y           xy          x2          y2          yest        Residuo     ResidCuad  
+----------------------------------------------------------------------------------------------------
+2.95       18.5       54.58      8.7        342.25     17.32            1.18             1.39            
+3.2        20.0       64.0       10.24      400.0      19.35            0.65             0.42            
+3.4        21.1       71.74      11.56      445.21     20.98            0.12             0.01            
+3.6        22.4       80.64      12.96      501.76     22.6             -0.2             0.04            
+3.2        21.2       67.84      10.24      449.44     19.35            1.85             3.42            
+2.85       15.0       42.75      8.12       225.0      16.51            -1.51            2.28            
+3.1        18.0       55.8       9.61       324.0      18.54            -0.54            0.29            
+2.85       18.8       53.58      8.12       353.44     16.51            2.29             5.24            
+3.05       15.7       47.88      9.3        246.49     18.13            -2.43            5.9             
+2.7        14.4       38.88      7.29       207.36     15.29            -0.89            0.79            
+2.75       15.5       42.62      7.56       240.25     15.7             -0.2             0.04            
+3.1        17.2       53.32      9.61       295.84     18.54            -1.34            1.8             
+3.15       19.0       59.85      9.92       361.0      18.95            0.05             0.0             
+2.95       17.2       50.74      8.7        295.84     17.32            -0.12            0.01            
+2.75       16.8       46.2       7.56       282.24     15.7             1.1              1.21            
+----------------------------------------------------------------------------------------------------
+45.6       270.8      830.43     139.51     4970.12    270.79           0.01             22.87           
+</pre></div>
+</div>
+</div>
+</div>
+<p>La ecuación estimada de regresión es:
+$<span class="math notranslate nohighlight">\(\widehat{salario\_inicial} = -6.63 + 8.12 \cdot CP\)</span>$</p>
+<p>O ḿás bien para usar la notación comunmente usada:</p>
+<div class="math notranslate nohighlight">
+\[\hat{y} = -6.63 + 8.12 \cdot x_i\]</div>
+<p>Siendo <span class="math notranslate nohighlight">\(y=salario\_inicial\)</span> la variable dependiente y <span class="math notranslate nohighlight">\(x=CP\)</span> variable dependiente.</p>
+<p>Al itentar interpretar esta ecuación se tiene que los valores de <span class="math notranslate nohighlight">\(\hat{y_i}\)</span> son los estimadores para las medias de las distribuciones de probabilidad de los salarios iniciales correspondientes a las calificaciones promedio <span class="math notranslate nohighlight">\(x_i\)</span>. En este caso, como en muchos otros, intentar predecir la respuesta más alla del intervalo de valores de <span class="math notranslate nohighlight">\(x\)</span> (<span class="math notranslate nohighlight">\( 2.70, 3.60 \)</span>) puede producir resultados inesperados; por ejemplo, un valor de <span class="math notranslate nohighlight">\(x=0.5\)</span> acarrearia una predicción <span class="math notranslate nohighlight">\(\hat{y}= -2.57\)</span>, lo cual sería absurdo. Es decir, que para intervalos más amplios de la variable de predicción, las estimaciones, en un caso como este al menos, deberían considerarse con reserva.</p>
+<p>Los residuos son las diferencias entre las observaciones (salarios iniciales)  y sus valores estimados; en otras palabras, cada valor residual es la distancia vertical existente entre la observación y el punto sobre la recta estimada de regresión correspondiente.</p>
+<p>La varianza (<span class="math notranslate nohighlight">\(\sigma^2\)</span>) de la variable respuesta es igual a la varianza del error. Dado que no es conocida, se estima mediante la suma de las diferencias al cuadrado <span class="math notranslate nohighlight">\(y_i - \hat{y_i}\)</span>, esta suma se divide por <span class="math notranslate nohighlight">\(n - 2\)</span>, siendo <span class="math notranslate nohighlight">\(n\)</span> el numero de datos o grados de libertad, a los que se les resta 2 unidades al descontar la estimación del intercepto y el coeficiente de regresión:</p>
+<div class="math notranslate nohighlight">
+\[s^2= \frac{\sum_{i=1}^{n}(y_i - \hat{y})^2}{{n - 2}}=\frac{\sum_{i=1}^{n} e_i^2}{{n-2}}\]</div>
+<p>El estimador <span class="math notranslate nohighlight">\(s^2\)</span> es conocido como <i>varianza residual</i> o <i>CME</i>, y la raíz cuadrada positiva <span class="math notranslate nohighlight">\(s\)</span> se conoce como la <i>desviacion estándar residual</i>. Siendo la <i>varianza residual</i> una medida absoluta de qué tan bien se ajusta la recta estimada de regresión a las medias de las observaciones de la variable respuesta; por lo que a menor valor <span class="math notranslate nohighlight">\(s^2\)</span> mejor será el ajuste al modelo. Si la forma del modelo de regresión es la correcta  <span class="math notranslate nohighlight">\(s^2\)</span> es un estimador insesgado de <span class="math notranslate nohighlight">\(\sigma^2\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eq</span> <span class="o">=</span> <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\widehat{salario\_inicial}=-6.63+8.12CP$&quot;</span><span class="p">)</span>
+<span class="c1"># eq = (r&quot;esto&quot;)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="n">l0</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">salario_inicial</span><span class="p">))</span>
+ <span class="n">l0</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">l0</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+ <span class="n">l1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">salario_estimado</span><span class="p">))</span>
+ <span class="n">l1</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">l1</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="c1"># list(zip(l0, l1))</span>
+<span class="n">lines</span> <span class="o">=</span> <span class="p">[[</span><span class="n">e</span><span class="p">,</span> <span class="n">f</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span><span class="p">,</span> <span class="n">f</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">l0</span><span class="p">,</span> <span class="n">l1</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lc</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">LineCollection</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># plt.figure(figsize=(10, 5))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="c1"># fig.set_size_inches(10, 5) # overrridden by plt.rcParams[figure.figsize]</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">CP</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">salario_inicial</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span> <span class="mi">60</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">CP</span><span class="p">,</span> <span class="n">salario_estimado</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">)</span>
+<span class="c1">#ax.text(3.5, 18, eq, color=&#39;C0&#39;,</span>
+<span class="c1">#        horizontalalignment=&quot;right&quot;, verticalalignment=&#39;top&#39;, </span>
+<span class="c1">#        fontsize=15)</span>
+<span class="c1">#ax.arrow(3.4, 18.1, 3.2, 19,width=0.2)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Residuos como distancias verticales desde</span><span class="se">\n</span><span class="s1">la ecuación estimada de regresion&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="p">(</span><span class="mf">3.3</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">xytext</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="p">),</span>
+           <span class="n">textcoords</span><span class="o">=</span><span class="s1">&#39;offset points&#39;</span><span class="p">,</span>
+           <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span>
+           <span class="n">arrowprops</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+           <span class="n">arrowstyle</span><span class="o">=</span><span class="s1">&#39;fancy&#39;</span><span class="p">,</span>
+           <span class="n">color</span><span class="o">=</span><span class="s1">&#39;steelblue&#39;</span><span class="p">,</span>
+           <span class="n">connectionstyle</span><span class="o">=</span><span class="s1">&#39;arc3, rad=0.3&#39;</span><span class="p">),)</span>
+<span class="c1"># plt.plot([CP[0], sal_in[0]], [CP[0], sal_est[0]], &#39;bo&#39;, linestyle=&#39;--&#39;)</span>
+<span class="c1">#ax.annotate(&#39;&#39;, xy = (cp[0], sal_in[0]),</span>
+<span class="c1">#            xytext = (cp[1], 30), </span>
+<span class="c1">#            xycoords = &#39;data&#39;,</span>
+<span class="c1">#            textcoords=&#39;offset points&#39;, color=&#39;steelblue&#39;,</span>
+<span class="c1">#           arrowprops={&#39;arrowstyle&#39;:&#39;&lt;-&gt;&#39;})</span>
+<span class="c1"># ax.plot([2.5, 14.5], [2.5, 15.5], color = &#39;steelblue&#39;, linestyle=&#39;--&#39;)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">add_collection</span><span class="p">(</span><span class="n">lc</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">autoscale</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c2f06a643439637f5d255d1a873b70043106fc5458da34ebe8c6ef3116071550.png" src="_images/c2f06a643439637f5d255d1a873b70043106fc5458da34ebe8c6ef3116071550.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="intro.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Estadísticas Básicas</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#george-canavos">George Canavos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datos-de-calificaciones-promedio-cp-y-salario-inicial-miles-de-dolares">Datos de calificaciones promedio (CP) y salario inicial (miles de dólares)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#estimacion-por-minimos-cuadrados-para-el-modelo-lineal-simple">Estimación por Mínimos Cuadrados para el Modelo Lineal Simple</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#salario-estimado">Salario Estimado</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+chapters:
+- file: probability
+- file: normalDist
+- file: chi_cuadrado
+- file: distribucion_t
+- file: distribucion_F
+- file: distribucion_media_muestral
+- file: regresionDefs
+- file: modelo_lineal_general
+- file: regresion_lineal_simple

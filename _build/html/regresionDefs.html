@@ -1,0 +1,629 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Regresion Lineal &#8212; Apuntes Estadísticos con Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'regresionDefs';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modelo Linea General" href="modelo_lineal_general.html" />
+    <link rel="prev" title="Distribución de la Media Muestral." href="distribucion_media_muestral.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Apuntes Estadísticos con Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Estadísticas con Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="probability.html">Probabilidad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalDist.html">Distribución Normal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chi_cuadrado.html">Distribución Chi-cuadrado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_t.html">Distribución t de <i>Student</i></a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_F.html">Distribución F</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_media_muestral.html">Distribución de la Media Muestral.</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Regresion Lineal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modelo_lineal_general.html">Modelo Linea General</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresion_lineal_simple.html">Regresión Lineal Simple</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FregresionDefs.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/regresionDefs.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Regresion Lineal</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptos-basicos">Conceptos Básicos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimos-cuadrados">Mínimos Cuadrados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i-asunciones-i-de-los-minimos-cuadrados"><i>Asunciones</i> de los Mínimos Cuadrados.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimacion-de-la-varianza">Estimación de la varianza</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="regresion-lineal">
+<h1>Regresion Lineal<a class="headerlink" href="#regresion-lineal" title="Permalink to this heading">#</a></h1>
+<section id="conceptos-basicos">
+<h2>Conceptos Básicos<a class="headerlink" href="#conceptos-basicos" title="Permalink to this heading">#</a></h2>
+<p>Es un método que permite asociar una o más variables, denominadas independientes(<span class="math notranslate nohighlight">\(x_1, x_2, ... x_n\)</span>), con otra que se tiene como dependiente o respuesta (<span class="math notranslate nohighlight">\(y\)</span>). Entendiendo que las observaciones en la llamada variable respuesta son eventos relacionados con los valores observados en las variables independientes.</p>
+<p>Cuando dicha asociación tiene lugar entre una variable dependiente y otra independiente, se habla de <i>Regresión Lineal Simple</i>; cuando existe más de una variable independiente se hablará de <i>Regresión Lineal Multiple</i></p>
+<p>Al decir lineal, debe entenderse lineal en los parámetros; es decir ningún parámetro (denotado por <span class="math notranslate nohighlight">\(\beta_0\)</span>, <span class="math notranslate nohighlight">\(\beta_1\)</span> … <span class="math notranslate nohighlight">\(\beta_n\)</span>) debe aparecer exponenciado, o multiplicado o dividido por otro parámetro. Por ejemplo:</p>
+<div class="math notranslate nohighlight">
+\[Y=\beta_0+\beta_1x+\epsilon\]</div>
+<div class="math notranslate nohighlight">
+\[Y=\beta_0+\beta_1x + \beta_2x^2+\epsilon\]</div>
+<div class="math notranslate nohighlight">
+\[Y=\beta_0+\beta_1 ln(x)+\epsilon\]</div>
+<div class="math notranslate nohighlight">
+\[Y=\beta_0+\beta_1x_1+ \beta_2 x_2 + \beta_3 x_1x_2+ \epsilon\]</div>
+<p>Son todos modelos lineales en los parámetros <span class="math notranslate nohighlight">\(\beta_0\)</span>, <span class="math notranslate nohighlight">\(\beta_1\)</span> … <span class="math notranslate nohighlight">\(\beta_n\)</span></p>
+<p>El siguiente modelo, en cambio, no lo es:</p>
+<div class="math notranslate nohighlight">
+\[Y=\beta_0+x^{\beta_1} +\epsilon\]</div>
+</section>
+<section id="minimos-cuadrados">
+<h2>Mínimos Cuadrados<a class="headerlink" href="#minimos-cuadrados" title="Permalink to this heading">#</a></h2>
+<p>El método de estimación más usual de los parámetros es <i>Minimos Cuadrados</i>. cuando los errores se distribuyen como una normal (<span class="math notranslate nohighlight">\(\epsilon_i \sim N(0, \sigma^2)\)</span>), coinciden con la estimación por <i>Máxima Verosimilitud</i>.</p>
+<section id="i-asunciones-i-de-los-minimos-cuadrados">
+<h3><i>Asunciones</i> de los Mínimos Cuadrados.<a class="headerlink" href="#i-asunciones-i-de-los-minimos-cuadrados" title="Permalink to this heading">#</a></h3>
+<p>Existen algunos presupuestos o asunciones que deben cumplirse
+para garantizar que los resultados e interpretaciones derivadas
+de su uso sean los adecuados.</p>
+<ul class="simple">
+<li><p>La media condicional de los errores (<span class="math notranslate nohighlight">\(\epsilon_i\)</span>) dada <span class="math notranslate nohighlight">\(X_i\)</span>
+debe ser cero, esto es: <span class="math notranslate nohighlight">\(E(\epsilon_i|X_i)=0\)</span>.</p></li>
+<li><p>Los pares <span class="math notranslate nohighlight">\((X_i, Y_i),\;\;\;i=1, ..., n\)</span> se corresponden con
+extracciones independientes e indeticamente distribuidas de
+su distribución conjunta.</p></li>
+<li><p>Los valores extremos deben ser poco probables.</p></li>
+</ul>
+<p>La violación de estos presupuestos puede conducir a estimaciones
+distorsinadas, y comprometiendo la validez de los  <i>tests</i>
+de significación.</p>
+<p><img alt="png" src="_images/output_7_0.png" /></p>
+<p>La gráfica muestra una serie de observaciones, pares <span class="math notranslate nohighlight">\((y_i, x_i)\)</span>, la linea recta representa la tendencia creciente en el comportamiento de esos datos. El método consiste en modelar el comportamiento de esos datos, según una expresión como:</p>
+<div class="math notranslate nohighlight">
+\[Y_i = \beta_0+\beta_1 x_i+ \epsilon_i, \;\;\;i=1, 2, ..., n\]</div>
+<p>Dónde cada observación <span class="math notranslate nohighlight">\(Y_i\)</span> es una variable aleatoria resultado de la suma de los términos <span class="math notranslate nohighlight">\(\beta_0\)</span>, <span class="math notranslate nohighlight">\(\beta_1\)</span> y del término aleatorio <span class="math notranslate nohighlight">\(\epsilon_i\)</span>, que representa a las desviaciones de cada una de las observaciones respecto de la recta. Cuando <span class="math notranslate nohighlight">\(\epsilon_i=0\)</span> la observación <span class="math notranslate nohighlight">\(Y_i\)</span> se ubicará exactamente sobre la linea recta.</p>
+<p>Entonces, <span class="math notranslate nohighlight">\(\epsilon_i\)</span> es la distancia vertical de una observación cualquiera a la línea de regresión. Además se supone que el valor esperado (<i>esperanza</i>) de esos <span class="math notranslate nohighlight">\(\epsilon_i\)</span> sea cero con varianza constante (<span class="math notranslate nohighlight">\(\sigma\)</span>). Es decir:</p>
+<div class="math notranslate nohighlight">
+\[E(\epsilon_i)=0;\;Var(\epsilon_i)=\sigma^2;\;\;i=1, 2, ...,n.\]</div>
+<div class="math notranslate nohighlight">
+\[Cov(\epsilon_i, \epsilon_i)=0\;\;\;\;\;i\neq j\]</div>
+<p>Entonces:
+$<span class="math notranslate nohighlight">\(E(Y_i) = E(\beta_0+\beta_1 x_i + \epsilon_i) = \beta_0+\beta_1 x_i\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[Cov(Y_i, Y_j)=\sigma^2,\;\;\;i \neq j\]</div>
+<div class="math notranslate nohighlight">
+\[Var(Y_i)=Var(\beta_0+\beta_1x_1+\epsilon_i)=Var(\epsilon_i)=\sigma^2.\]</div>
+<p>La varianza de <span class="math notranslate nohighlight">\(Y_i\)</span> es igual a <span class="math notranslate nohighlight">\(\sigma^2\)</span> debido a al efectuar la regresión de <span class="math notranslate nohighlight">\(Y\)</span> sobre <span class="math notranslate nohighlight">\(X\)</span> (conocida) se está condicionando a <span class="math notranslate nohighlight">\(Y\)</span> dada que existe <span class="math notranslate nohighlight">\(X\)</span>, siendo asi, esa <span class="math notranslate nohighlight">\(X\)</span> es una cantidad no aleatoria de la cual los errores son independientes, o sea:</p>
+<div class="math notranslate nohighlight">
+\[Var(y|x)=Var(\beta_0+\beta_1x+\epsilon|x)=Var(\epsilon|x)=Var(\epsilon) = \sigma^2.\]</div>
+<p>El método de mínimos cuadrados minimiza la suma de los cuadrados de las desviaciones o distancias de los puntos a la recta. La <i>i-esima</i> desviación o error es:
+$<span class="math notranslate nohighlight">\(\epsilon_i=Y_i-(\beta_0+\beta_1x_i)\)</span>$</p>
+<p>Y la suma de los cuadrados de los errores es:
+$<span class="math notranslate nohighlight">\(\sum_{i=1}^{{n}}e_i^2=\sum_{i=1}^{{n}}(Y_i+\beta_0+\beta_1x_i)^2\)</span>$</p>
+<p>Los estimadores de mínímos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span> y <span class="math notranslate nohighlight">\(\beta_1\)</span>, se obtinen mediante la diferenciación de la expresión anterior:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\partial\sum \epsilon_i^2}{{\partial\beta_0}}=-2\sum(Y_i-b_0-b_1x_i)=0\]</div>
+<div class="math notranslate nohighlight">
+\[\frac{\partial\sum \epsilon_i^2}{{\partial\beta_1}}=-2\sum x_i(Y_i-b_0-b_1x_i)=0\]</div>
+<p>Siendo <span class="math notranslate nohighlight">\(b_0\)</span> y <span class="math notranslate nohighlight">\(b_1\)</span> los estimadores de mínimos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span>  <span class="math notranslate nohighlight">\(\beta_1\)</span>, respectivamente. Al simplificar y distribuir las sumas en las expresiones de arriba:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{{n}}Y_i=nb_0+b_1\sum_{i=1}^{{n}}x_i;\;\;\;\;\;\;(1)\]</div>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{{n}}x_iY_i=b_0\sum_{i=1}^{{n}}x_i+b_1\sum_{i=1}^{{n}}x_i^2;\;\;\;\;\;\;(2)\]</div>
+<p>Las expresiones (1) y (2) son las conocidas como <i>ecuaciones normales</i>; al dividir (3) por <i>n</i>, se obtiene:</p>
+<div class="math notranslate nohighlight">
+\[\frac{\sum y_i}{{n}}=b_0+b_1\frac{\sum x_i}{{n}}\]</div>
+<p>Y el estimador de mínimos cuadrados de <span class="math notranslate nohighlight">\(\beta_0\)</span> es:</p>
+<div class="math notranslate nohighlight">
+\[b_0=\frac{\sum_{i=1}^{{n}} y_i}{{n}}-b_1\frac{\sum_{i=1}^{{n}}x_i}{{n}}=\bar{y} - b_1\bar{x}\;\;\;\;\;\;\;(3)\]</div>
+<p>Sustituyendo <span class="math notranslate nohighlight">\((3)\)</span> en <span class="math notranslate nohighlight">\((2)\)</span>, resulta:</p>
+<div class="math notranslate nohighlight">
+\[\sum x_iy_i=\left (\begin{array}{c}\frac{\sum y_i}{{n}} - b_1\frac{\sum x_i}{{n}}\end{array} \right ) \sum x_i + b_1\sum x_i^2\]</div>
+<p>Luego con el despeje de <span class="math notranslate nohighlight">\(b_1\)</span> se llega a:</p>
+<div class="math notranslate nohighlight">
+\[b_1=\frac{\sum_{i=1}^{{n}}x_i y_i - \frac{\left (\begin{array}{c}\sum_{i=1}^n x_i\end{array} \right ) \left ( \begin{array}{c}\sum_{i=1}^n y_i \end{array} \right )}{{n}}}{{\sum_{i=1}^n x_i^2- \frac{(\sum_{i=1}^n x_i)^2}{{n}}}}=\frac{\sum_{i=1}^n (x_i - \bar{x})(y_i-\bar{y})}{{\sum_{i=1}^n (x_i- \bar{x})^2}}\;\;\;\;(4)\]</div>
+<p>Los valores <span class="math notranslate nohighlight">\(b_1\)</span> y <span class="math notranslate nohighlight">\(b_0\)</span> son los que minimizan la suma de los cudrados de los errores.</p>
+<p>La recta de regresión estimada para el modelo de regresión simple es:
+$<span class="math notranslate nohighlight">\(\hat{Y_i}=b_0+b_1x_i\)</span>$</p>
+<p>La diferencia entre la realización <span class="math notranslate nohighlight">\(y_i\)</span> y el valor estimado <span class="math notranslate nohighlight">\(\hat{y_i}\)</span> es el estimador del error, o <i>i-ésimo</i> residual: <span class="math notranslate nohighlight">\(e_i=y_i - \hat{y_i}\)</span></p>
+<p>Algunas propiedades son:</p>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{n}\epsilon_i=0\]</div>
+<div class="math notranslate nohighlight">
+\[\sum_{i=1}^{n}y_i = \sum_{i=1}^{n} \hat{y_i}\]</div>
+<div class="math notranslate nohighlight">
+\[ \sum_{i=1}^{n}x_i \epsilon_i=0\]</div>
+</section>
+<section id="estimacion-de-la-varianza">
+<h3>Estimación de la varianza<a class="headerlink" href="#estimacion-de-la-varianza" title="Permalink to this heading">#</a></h3>
+<p>La varianza del error es la misma que la varianza de la variable
+respuesta (<span class="math notranslate nohighlight">\(\sigma^2\)</span>); que se asume constante para todos los valores de
+la variable de predicción. El valor de <span class="math notranslate nohighlight">\(\sigma^2\)</span>, es desconocido
+por lo tanto debe estimarse a partir de los mínimos cuadrados.
+Dado que <span class="math notranslate nohighlight">\(\hat{y_i}\)</span> estima la media de <span class="math notranslate nohighlight">\(Y_i\)</span> , la diferencia
+<span class="math notranslate nohighlight">\(y_i - \hat{y_i}\)</span> representa una desviación de <span class="math notranslate nohighlight">\(Y_i\)</span> con respecto
+de su propia media. Las desviaciones al cuadrado de una variable
+divididas por el número de observaciones, es lo que se conoce como
+varianza; en este caso, a dicho número se le sustraera la cantidad
+de parámetros que se estan estimando, en la regresión simple son:
+<span class="math notranslate nohighlight">\(\beta_0\)</span> y <span class="math notranslate nohighlight">\(\beta_1\)</span>. El estimador es entonces:</p>
+<div class="math notranslate nohighlight">
+\[S^2= \frac{\sum_{i=1}^n(y_i - \hat{y_i})^2}{{n-2}}\]</div>
+<p>Si las suposiciones (<i>asunciones</i>) requeridas para la
+estimación de mínimos cuadrados se cumplen a cabalidad;
+entonces los estimadores <span class="math notranslate nohighlight">\(B_0\)</span> y <span class="math notranslate nohighlight">\(B_1\)</span> son los mejores
+estimadores insesgados de <span class="math notranslate nohighlight">\(\beta_0\)</span> y <span class="math notranslate nohighlight">\(\beta_1\)</span>:
+$<span class="math notranslate nohighlight">\(E(B_1)=\beta_1\)</span>$</p>
+<div class="math notranslate nohighlight">
+\[Var(B_1)=\frac{\sigma^2}{{\sum_{i=1}^n (x_i - \bar{x})^2}}
+\]</div>
+<p>Mientras que:</p>
+<div class="math notranslate nohighlight">
+\[E(B_0)=\beta_0\]</div>
+<div class="math notranslate nohighlight">
+\[Var(B_0)=\frac{\sigma^2\sum_{i=1}^n x_i^2}{{n\sum_{i=1}^n(x_i-\bar{x})^2}}\]</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="distribucion_media_muestral.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Distribución de la Media Muestral.</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="modelo_lineal_general.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Modelo Linea General</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#conceptos-basicos">Conceptos Básicos</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minimos-cuadrados">Mínimos Cuadrados</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#i-asunciones-i-de-los-minimos-cuadrados"><i>Asunciones</i> de los Mínimos Cuadrados.</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#estimacion-de-la-varianza">Estimación de la varianza</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Latesco
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

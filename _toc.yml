@@ -10,6 +10,7 @@ chapters:
 - file: distribucion_t
 - file: distribucion_F
 - file: distribucion_media_muestral
+- file: grandesNumeros_TCL
 - file: regresionDefs
 - file: modelo_lineal_general
 - file: regresion_lineal_simple

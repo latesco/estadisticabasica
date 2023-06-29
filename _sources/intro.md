@@ -1,7 +1,6 @@
-# Estadísticas con Python
+# Apuntes de Estadística con Python
 
-Revisando algunos conceptos de estadística  mediante 
-mediante rutinas de  <i>Python</i>.
+Notas y comentarios sobre algunos conceptos de Estadística, con implementación en   <i>Python</i>.
 
 ```{tableofcontents}
 ```

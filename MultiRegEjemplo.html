@@ -1,0 +1,1641 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>Regresión Múltiple (Ejemplo) &#8212; Apuntes Estadísticos con Python</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'MultiRegEjemplo';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Regresión Lineal Simple" href="regresion_lineal_simple.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Apuntes Estadísticos con Python</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Apuntes de Estadística con Python
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="probability.html">Probabilidad</a></li>
+<li class="toctree-l1"><a class="reference internal" href="normalDist.html">Distribución Normal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="chi_cuadrado.html">Distribución Chi-cuadrado</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_t.html">Distribución t de <i>Student</i></a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_F.html">Distribución F</a></li>
+<li class="toctree-l1"><a class="reference internal" href="distribucion_media_muestral.html">Distribución de la Media Muestral.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="grandesNumeros_TCL.html">Aproximaciones a Distribuciones Muestrales</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresionDefs.html">Regresion Lineal</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modelo_lineal_general.html">Modelo Linea General</a></li>
+<li class="toctree-l1"><a class="reference internal" href="regresion_lineal_simple.html">Regresión Lineal Simple</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Regresión Múltiple (Ejemplo)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2FMultiRegEjemplo.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/MultiRegEjemplo.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Regresión Múltiple (Ejemplo)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnosticos">Diagnósticos.</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="regresion-multiple-ejemplo">
+<h1>Regresión Múltiple (Ejemplo)<a class="headerlink" href="#regresion-multiple-ejemplo" title="Permalink to this heading">#</a></h1>
+<p>Las observaciones en las siguientes listas, corresponden a datos asociados a la producción de gasolina y ciertas propiedades de destilación:<br><br></p>
+<ul class="simple">
+<li><p>y: produccion de gasolina, expresada en porcentaje respecto al total de petróleo crudo.<br><br></p></li>
+<li><p>x1: densidad del petróleo crudo (°API).<br><br></p></li>
+<li><p>x2: presión de vapor del crudo (psi).<br><br></p></li>
+<li><p>x3: el punto del 10% ASTM para el crudo (°F).<br><br></p></li>
+<li><p>x4: el punto final ASTM para la gasolina (°F).<br></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.9</span><span class="p">,</span> <span class="mf">14.4</span><span class="p">,</span> <span class="mf">7.4</span><span class="p">,</span> <span class="mf">8.5</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mf">12.2</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span>
+    <span class="mf">15.2</span><span class="p">,</span> <span class="mf">26.8</span><span class="p">,</span> <span class="mf">14.0</span><span class="p">,</span> <span class="mf">14.7</span><span class="p">,</span> <span class="mf">6.4</span><span class="p">,</span> <span class="mf">17.6</span><span class="p">,</span> <span class="mf">22.3</span><span class="p">,</span> <span class="mf">24.8</span><span class="p">,</span> <span class="mf">26.0</span><span class="p">,</span>
+    <span class="mf">34.9</span><span class="p">,</span> <span class="mf">18.2</span><span class="p">,</span> <span class="mf">23.2</span><span class="p">,</span> <span class="mf">18.0</span><span class="p">,</span> <span class="mf">13.1</span><span class="p">,</span> <span class="mf">16.1</span><span class="p">,</span> <span class="mf">32.1</span><span class="p">,</span> <span class="mf">34.7</span><span class="p">,</span> <span class="mf">31.7</span><span class="p">,</span>
+    <span class="mf">33.6</span><span class="p">,</span> <span class="mf">30.4</span><span class="p">,</span> <span class="mf">26.6</span><span class="p">,</span> <span class="mf">27.8</span><span class="p">,</span> <span class="mf">45.7</span><span class="p">]</span>
+
+<span class="n">x1</span> <span class="o">=</span> <span class="p">[</span><span class="mf">38.4</span><span class="p">,</span> <span class="mf">40.3</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">31.8</span><span class="p">,</span> <span class="mf">40.8</span><span class="p">,</span> <span class="mf">41.3</span><span class="p">,</span> <span class="mf">38.1</span><span class="p">,</span> <span class="mf">50.8</span><span class="p">,</span> <span class="mf">32.2</span><span class="p">,</span>
+     <span class="mf">38.4</span><span class="p">,</span> <span class="mf">40.3</span><span class="p">,</span> <span class="mf">32.2</span><span class="p">,</span> <span class="mf">31.8</span><span class="p">,</span> <span class="mf">41.3</span><span class="p">,</span> <span class="mf">38.1</span><span class="p">,</span> <span class="mf">50.8</span><span class="p">,</span> <span class="mf">32.2</span><span class="p">,</span> <span class="mf">38.4</span><span class="p">,</span>
+      <span class="mf">40.3</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">32.2</span><span class="p">,</span> <span class="mf">31.8</span><span class="p">,</span> <span class="mf">40.8</span><span class="p">,</span> <span class="mf">41.3</span><span class="p">,</span> <span class="mf">38.1</span><span class="p">,</span> <span class="mf">50.8</span><span class="p">,</span> <span class="mf">32.2</span><span class="p">,</span>
+     <span class="mf">38.4</span><span class="p">,</span> <span class="mf">40.0</span><span class="p">,</span> <span class="mf">40.8</span><span class="p">,</span> <span class="mf">41.3</span><span class="p">,</span> <span class="mf">50.8</span><span class="p">]</span>
+
+<span class="n">x2</span> <span class="o">=</span> <span class="p">[</span><span class="mf">6.1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span>
+     <span class="mf">2.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">4.8</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span>
+     <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">,</span> <span class="mf">5.2</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">6.1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">,</span> <span class="mf">8.6</span><span class="p">]</span>
+
+<span class="n">x3</span> <span class="o">=</span> <span class="p">[</span><span class="mi">220</span><span class="p">,</span> <span class="mi">231</span><span class="p">,</span> <span class="mi">217</span><span class="p">,</span> <span class="mi">316</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">267</span><span class="p">,</span> <span class="mi">274</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">231</span><span class="p">,</span> <span class="mi">284</span><span class="p">,</span>
+     <span class="mi">316</span><span class="p">,</span> <span class="mi">267</span><span class="p">,</span> <span class="mi">274</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">231</span><span class="p">,</span> <span class="mi">217</span><span class="p">,</span> <span class="mi">284</span><span class="p">,</span> <span class="mi">316</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">267</span><span class="p">,</span>
+     <span class="mi">274</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">236</span><span class="p">,</span> <span class="mi">220</span><span class="p">,</span> <span class="mi">217</span><span class="p">,</span> <span class="mi">210</span><span class="p">,</span> <span class="mi">267</span><span class="p">,</span> <span class="mi">190</span><span class="p">]</span>
+
+<span class="n">x4</span> <span class="o">=</span> <span class="p">[</span><span class="mi">235</span><span class="p">,</span> <span class="mi">307</span><span class="p">,</span> <span class="mi">212</span><span class="p">,</span> <span class="mi">365</span><span class="p">,</span> <span class="mi">218</span><span class="p">,</span> <span class="mi">235</span><span class="p">,</span> <span class="mi">285</span><span class="p">,</span> <span class="mi">205</span><span class="p">,</span> <span class="mi">267</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">367</span><span class="p">,</span> <span class="mi">351</span><span class="p">,</span>
+     <span class="mi">379</span><span class="p">,</span> <span class="mi">275</span><span class="p">,</span> <span class="mi">365</span><span class="p">,</span> <span class="mi">275</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">365</span><span class="p">,</span> <span class="mi">395</span><span class="p">,</span> <span class="mi">272</span><span class="p">,</span> <span class="mi">424</span><span class="p">,</span> <span class="mi">428</span><span class="p">,</span> <span class="mi">273</span><span class="p">,</span> <span class="mi">358</span><span class="p">,</span>
+     <span class="mi">444</span><span class="p">,</span> <span class="mi">345</span><span class="p">,</span> <span class="mi">402</span><span class="p">,</span> <span class="mi">410</span><span class="p">,</span> <span class="mi">340</span><span class="p">,</span> <span class="mi">347</span><span class="p">,</span> <span class="mi">416</span><span class="p">,</span> <span class="mi">407</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Supongamos que, en principio, se desea establecer si todas o algunas de esas variables (x1, x2, x3, x4) tienen poder predictivo sobre la producción de gasolina.</p>
+<p>Para ello, se propone un análisis de regresión, con el siguiente modelo:<br></p>
+<div class="math notranslate nohighlight">
+\[Y = \beta_0+\beta_1 x_1 + \beta_2 x_2 + \beta_3 x_3 + \beta_4 + \epsilon\]</div>
+<p>Para implementar ese modelo en <i>Python</i>, procederémos de el siguiente modo:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">statsmodels.formula.api</span> <span class="k">as</span> <span class="nn">smf</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matplotlib is building the font cache; this may take a moment.
+</pre></div>
+</div>
+</div>
+</div>
+<p><i>Pandas</i>, facilita todo tipo de cálculos y transformaciones sobre los datos;  <i>statsmodels</i>, por su parte, ofrece la posibilidad de ejecutar y evaluar diferentes tipos de modelos, es una alternativa o complemento de paquetes como <i>sci-kit learn</i>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">set_theme</span><span class="p">(</span><span class="n">style</span> <span class="o">=</span> <span class="s1">&#39;whitegrid&#39;</span><span class="p">,</span>
+             <span class="c1">#palette=&#39;pastel&#39;</span>
+             <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;y&#39;</span><span class="p">:</span><span class="n">y</span><span class="p">,</span>
+                 <span class="s1">&#39;x1&#39;</span><span class="p">:</span> <span class="n">x1</span><span class="p">,</span>
+                 <span class="s1">&#39;x2&#39;</span><span class="p">:</span> <span class="n">x2</span><span class="p">,</span>
+                 <span class="s1">&#39;x3&#39;</span><span class="p">:</span> <span class="n">x3</span><span class="p">,</span>
+                 <span class="s1">&#39;x4&#39;</span><span class="p">:</span> <span class="n">x4</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>El <i>dataframe</i>, es un contenedor conveniente para las listas mostradas arriba.</p>
+<p>A continuación observamos la matriz de correlaciones entre la variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">(),</span> <span class="n">annot</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> 
+            <span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">diverging_palette</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="mi">77</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+           <span class="p">)</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s1">&#39;Correlaciones entre</span><span class="se">\n</span><span class="s1">Variables&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0.5, 1.0, &#39;Correlaciones entre\nVariables&#39;)]
+</pre></div>
+</div>
+<img alt="_images/3e13cbd550b4d3e93468465af0267dfe12ecf0436475b66053cdb8cd9600b299.png" src="_images/3e13cbd550b4d3e93468465af0267dfe12ecf0436475b66053cdb8cd9600b299.png" />
+</div>
+</div>
+<p>Como vemos, existe fuerte asociación entre algunas variables; siendo la más elevada la relación lineal entre <span class="math notranslate nohighlight">\(x_2\)</span> y <span class="math notranslate nohighlight">\(x3\)</span>, que es extrema.<br><br></p>
+<p>La observación de esa matriz de correlaciones nos anticipa la posibilidad de encontrar problemas al especificar el modelo incluyendo todas esas variables. <br><br></p>
+<p>Hacemos el cálculo a ver.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ x1 + x2 + x3 + x4&#39;</span><span class="p">,</span>
+                    <span class="n">data</span> <span class="o">=</span> <span class="n">df</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.962</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.957</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   171.7</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>8.82e-19</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>10:21:34</td>     <th>  Log-Likelihood:    </th> <td> -68.415</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>    32</td>      <th>  AIC:               </th> <td>   146.8</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    27</td>      <th>  BIC:               </th> <td>   154.2</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     4</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>   -6.8208</td> <td>   10.123</td> <td>   -0.674</td> <td> 0.506</td> <td>  -27.592</td> <td>   13.950</td>
+</tr>
+<tr>
+  <th>x1</th>        <td>    0.2272</td> <td>    0.100</td> <td>    2.274</td> <td> 0.031</td> <td>    0.022</td> <td>    0.432</td>
+</tr>
+<tr>
+  <th>x2</th>        <td>    0.5537</td> <td>    0.370</td> <td>    1.498</td> <td> 0.146</td> <td>   -0.205</td> <td>    1.312</td>
+</tr>
+<tr>
+  <th>x3</th>        <td>   -0.1495</td> <td>    0.029</td> <td>   -5.116</td> <td> 0.000</td> <td>   -0.210</td> <td>   -0.090</td>
+</tr>
+<tr>
+  <th>x4</th>        <td>    0.1547</td> <td>    0.006</td> <td>   23.992</td> <td> 0.000</td> <td>    0.141</td> <td>    0.168</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 0.635</td> <th>  Durbin-Watson:     </th> <td>   2.169</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.728</td> <th>  Jarque-Bera (JB):  </th> <td>   0.719</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.190</td> <th>  Prob(JB):          </th> <td>   0.698</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 2.371</td> <th>  Cond. No.          </th> <td>1.07e+04</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.<br/>[2] The condition number is large, 1.07e+04. This might indicate that there are<br/>strong multicollinearity or other numerical problems.</div></div>
+</div>
+<p>El método <i>summary</i>, presenta un resumen con varias magnitudes, entre las que resaltan:<br><br></p>
+<ul class="simple">
+<li><p>Dep. Variable: Variable dependiente<br><br></p></li>
+<li><p>R-squared: coeficiente de determinación<br><br></p></li>
+<li><p>Adj. R-squared: coeficiente de determinación ajustado<br><br></p></li>
+<li><p>F-statistic: estadístico de contraste para bondad del ajuste.<br><br></p></li>
+<li><p>Prob (F-statistic): probabilidad asociada con el el estadístico F.<br><br></p></li>
+<li><p>Log-Likelihood: una medida de la bondad del ajuste a los datos, a mayor valor corresponderá un mejor ajuste. No es útil por si solo, pero sirve para comparar entre modelos; aunque adolece de problemas similares al <span class="math notranslate nohighlight">\(R^2\)</span>.
+<br><br></p></li>
+<li><p>AIC: criterio de información de Akaike (sirve para seleccion entre modelos), a menor valor mejor.<br><br></p></li>
+<li><p>BIC: criterio de información de Bayes (sirve para seleccion entre modelos)<br><br></p></li>
+<li><p>coef: valor estimado de los coeficientes de regresión.<br><br></p></li>
+<li><p>std err: error estándar de los coeficientes<br><br></p></li>
+<li><p>t: estadístico distribución t de student, asociado a los coeficientes.<br><br></p></li>
+<li><p>P &gt; |t|: contraste de significación para los coeficientes (p-valor)<br><br></p></li>
+<li><p>Intervalos del 95% de confianza para el valor de los coeficientes.<br><br></p></li>
+<li><p>Durbin-Watson:<i>test</i> para autocorrelación de residuos.<br><br></p></li>
+<li><p>Jarque-Bera: estadístico de normalidad de residuos.<br><br></p></li>
+<li><p>Prob(JB): probabilidad asociada al estadístico Jarque-Bera<br><br></p></li>
+<li><p><a class="reference external" href="http://Cond.No">Cond.No</a>: <i>Condition Number</i>: raíz cuadrada del cociente entre los autovalores (eigen) máximo y mínimo del producto interno de las variables predictoras. Un valor superior a 20, alerta sobre posibles problemas como multicolinealidad.</p></li>
+</ul>
+<p>El coeficiente de determinación ajustado, indica que el 96% de variabilidad el porcentaje de producción de gasolina sería explicado por el modelo; algunos coeficientes <span class="math notranslate nohighlight">\((\hat{\beta_0}\)</span> y <span class="math notranslate nohighlight">\(\hat{\beta_2})\)</span> aparecen como no significativos, al menos no al 95%  ni al 90% de confianza.<br><br>
+Por otra parte, una alerta en las notas del sumario nos indica que puede haber problemas de multicolinealidad o de alguna otra clase, lo cual no sorprende, dados los valores de la matriz de correlación.</p>
+<p>En presencia de multicolinealidad alta, como en este caso, los <i>tests</i> de significación sobre los coeficientes ya no son confiables,  la alta colinealidad impide aislar la relación entre cada variable de predicción y la respuesta; los coeficientes de regresión se hacen inestables; incluso su signo podría fluctuar. De modo que cualquier interpretación sobre  la tabla generada por <i>summary</i> no tendra mucha validez.</p>
+<p>Siendo un número pequeño de variables predictoras (4), es posible, incluso, explorar todas las combinaciones posibles de especificación del modelo de regresión, estableciendo algunos criterios de selección, como podrían ser, por ejemplo: <span class="math notranslate nohighlight">\(R^2\)</span>, <span class="math notranslate nohighlight">\(AIC\)</span> y <span class="math notranslate nohighlight">\(Log-Likelihood\)</span>.<br><br></p>
+<p>Son apenas 32 observaciones por variable, de modo que separar un subconjunto de los datos para  validacion, me luce un poco quiza fuera de contexto, para este problema en particular.</p>
+<p>Pero antes, sería bueno explorar también otra posibilidad de perturbación en la obtención de un modelo más apropiado: la diferencia en escalas de las variables.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">varivar</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span>
+<span class="n">varivar</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="s1">&#39;etiquetas varianzas&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+<span class="n">varivar</span> <span class="o">=</span> <span class="n">varivar</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s1">&#39;varianzas&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sns</span><span class="o">.</span><span class="n">barplot</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">varivar</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s1">&#39;varianzas&#39;</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s1">&#39;etiquetas&#39;</span> <span class="p">,</span>
+           <span class="n">orient</span><span class="o">=</span><span class="s1">&#39;h&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Varianzas de Predictoras.&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 1.0, &#39;Varianzas de Predictoras.&#39;)
+</pre></div>
+</div>
+<img alt="_images/c8328a61f18aad3aeca72fbc6b68b705f057402881c81b25363fc16cd14b1e2f.png" src="_images/c8328a61f18aad3aeca72fbc6b68b705f057402881c81b25363fc16cd14b1e2f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cm</span> <span class="o">=</span> <span class="n">sns</span><span class="o">.</span><span class="n">light_palette</span><span class="p">(</span><span class="s2">&quot;#ff9966&quot;</span><span class="p">,</span> <span class="n">as_cmap</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>
+     <span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+     <span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{:.0f}</span><span class="s1">&#39;</span><span class="p">)</span>
+     <span class="o">.</span><span class="n">background_gradient</span><span class="p">(</span><span class="n">cmap</span><span class="o">=</span><span class="n">cm</span><span class="p">)</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+#T_eb0af_row0_col0, #T_eb0af_row4_col3 {
+  background-color: #fabd9f;
+  color: #000000;
+}
+#T_eb0af_row0_col1, #T_eb0af_row7_col0, #T_eb0af_row7_col2, #T_eb0af_row7_col3 {
+  background-color: #ff9966;
+  color: #000000;
+}
+#T_eb0af_row0_col2, #T_eb0af_row0_col3, #T_eb0af_row2_col0, #T_eb0af_row3_col1 {
+  background-color: #f3f0ef;
+  color: #000000;
+}
+#T_eb0af_row1_col0 {
+  background-color: #fcaf89;
+  color: #000000;
+}
+#T_eb0af_row1_col1 {
+  background-color: #f4e5de;
+  color: #000000;
+}
+#T_eb0af_row1_col2 {
+  background-color: #fcb08a;
+  color: #000000;
+}
+#T_eb0af_row1_col3 {
+  background-color: #fcb18b;
+  color: #000000;
+}
+#T_eb0af_row2_col1 {
+  background-color: #f4eae5;
+  color: #000000;
+}
+#T_eb0af_row2_col2 {
+  background-color: #f3efed;
+  color: #000000;
+}
+#T_eb0af_row2_col3 {
+  background-color: #f4e8e3;
+  color: #000000;
+}
+#T_eb0af_row3_col0 {
+  background-color: #fabea0;
+  color: #000000;
+}
+#T_eb0af_row3_col2 {
+  background-color: #fac0a3;
+  color: #000000;
+}
+#T_eb0af_row3_col3 {
+  background-color: #f8ccb6;
+  color: #000000;
+}
+#T_eb0af_row4_col0 {
+  background-color: #fbb491;
+  color: #000000;
+}
+#T_eb0af_row4_col1 {
+  background-color: #f3ece9;
+  color: #000000;
+}
+#T_eb0af_row4_col2 {
+  background-color: #fbb796;
+  color: #000000;
+}
+#T_eb0af_row5_col0 {
+  background-color: #fcae87;
+  color: #000000;
+}
+#T_eb0af_row5_col1 {
+  background-color: #f5e3db;
+  color: #000000;
+}
+#T_eb0af_row5_col2 {
+  background-color: #fbb38f;
+  color: #000000;
+}
+#T_eb0af_row5_col3 {
+  background-color: #fcad86;
+  color: #000000;
+}
+#T_eb0af_row6_col0 {
+  background-color: #fcac84;
+  color: #000000;
+}
+#T_eb0af_row6_col1 {
+  background-color: #f5e0d6;
+  color: #000000;
+}
+#T_eb0af_row6_col2 {
+  background-color: #fda77d;
+  color: #000000;
+}
+#T_eb0af_row6_col3 {
+  background-color: #fda67a;
+  color: #000000;
+}
+#T_eb0af_row7_col1 {
+  background-color: #f6d9cb;
+  color: #000000;
+}
+</style>
+<table id="T_eb0af">
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_eb0af_level0_col0" class="col_heading level0 col0" >x1</th>
+      <th id="T_eb0af_level0_col1" class="col_heading level0 col1" >x2</th>
+      <th id="T_eb0af_level0_col2" class="col_heading level0 col2" >x3</th>
+      <th id="T_eb0af_level0_col3" class="col_heading level0 col3" >x4</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_eb0af_level0_row0" class="row_heading level0 row0" >count</th>
+      <td id="T_eb0af_row0_col0" class="data row0 col0" >32</td>
+      <td id="T_eb0af_row0_col1" class="data row0 col1" >32</td>
+      <td id="T_eb0af_row0_col2" class="data row0 col2" >32</td>
+      <td id="T_eb0af_row0_col3" class="data row0 col3" >32</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row1" class="row_heading level0 row1" >mean</th>
+      <td id="T_eb0af_row1_col0" class="data row1 col0" >39</td>
+      <td id="T_eb0af_row1_col1" class="data row1 col1" >4</td>
+      <td id="T_eb0af_row1_col2" class="data row1 col2" >242</td>
+      <td id="T_eb0af_row1_col3" class="data row1 col3" >332</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row2" class="row_heading level0 row2" >std</th>
+      <td id="T_eb0af_row2_col0" class="data row2 col0" >6</td>
+      <td id="T_eb0af_row2_col1" class="data row2 col1" >3</td>
+      <td id="T_eb0af_row2_col2" class="data row2 col2" >38</td>
+      <td id="T_eb0af_row2_col3" class="data row2 col3" >70</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row3" class="row_heading level0 row3" >min</th>
+      <td id="T_eb0af_row3_col0" class="data row3 col0" >32</td>
+      <td id="T_eb0af_row3_col1" class="data row3 col1" >0</td>
+      <td id="T_eb0af_row3_col2" class="data row3 col2" >190</td>
+      <td id="T_eb0af_row3_col3" class="data row3 col3" >205</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row4" class="row_heading level0 row4" >25%</th>
+      <td id="T_eb0af_row4_col0" class="data row4 col0" >37</td>
+      <td id="T_eb0af_row4_col1" class="data row4 col1" >2</td>
+      <td id="T_eb0af_row4_col2" class="data row4 col2" >217</td>
+      <td id="T_eb0af_row4_col3" class="data row4 col3" >274</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row5" class="row_heading level0 row5" >50%</th>
+      <td id="T_eb0af_row5_col0" class="data row5 col0" >40</td>
+      <td id="T_eb0af_row5_col1" class="data row5 col1" >5</td>
+      <td id="T_eb0af_row5_col2" class="data row5 col2" >231</td>
+      <td id="T_eb0af_row5_col3" class="data row5 col3" >349</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row6" class="row_heading level0 row6" >75%</th>
+      <td id="T_eb0af_row6_col0" class="data row6 col0" >41</td>
+      <td id="T_eb0af_row6_col1" class="data row6 col1" >6</td>
+      <td id="T_eb0af_row6_col2" class="data row6 col2" >269</td>
+      <td id="T_eb0af_row6_col3" class="data row6 col3" >383</td>
+    </tr>
+    <tr>
+      <th id="T_eb0af_level0_row7" class="row_heading level0 row7" >max</th>
+      <td id="T_eb0af_row7_col0" class="data row7 col0" >51</td>
+      <td id="T_eb0af_row7_col1" class="data row7 col1" >9</td>
+      <td id="T_eb0af_row7_col2" class="data row7 col2" >316</td>
+      <td id="T_eb0af_row7_col3" class="data row7 col3" >444</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>Existe bastante disparidad entre las magnitudes que alcanzan las observaciones de las variables independientes, podría convenir algún tipo de estandarización de los datos.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">regex</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">),</span>
+                 <span class="n">columns</span> <span class="o">=</span><span class="n">X</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">df_sc</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">combinations</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><i>Itertools</i>, es un paquete integrado a la instalación básica de <i>Python</i>, y con él podemos obtener las posibles combinaciones de variables para integrar un modelo de regresión</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lista_variables</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">,</span> <span class="s1">&#39;x3&#39;</span><span class="p">,</span> <span class="s1">&#39;x4&#39;</span><span class="p">]</span> <span class="c1"># Nombres de las variables</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">combs</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1"># lista vacia que contendrá las combinaciones</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Con la función <i>combinations</i> y un <i>bucle</i>, encontramos las posibles combinaciones</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lista_variables</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="n">combs</span> <span class="o">+=</span> <span class="nb">list</span><span class="p">(</span><span class="n">combinations</span><span class="p">(</span><span class="n">lista_variables</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+
+
+<span class="n">combs</span> <span class="c1"># lista con posibles combinaciones de variables para integrar el modelo</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;x1&#39;,),
+ (&#39;x2&#39;,),
+ (&#39;x3&#39;,),
+ (&#39;x4&#39;,),
+ (&#39;x1&#39;, &#39;x2&#39;),
+ (&#39;x1&#39;, &#39;x3&#39;),
+ (&#39;x1&#39;, &#39;x4&#39;),
+ (&#39;x2&#39;, &#39;x3&#39;),
+ (&#39;x2&#39;, &#39;x4&#39;),
+ (&#39;x3&#39;, &#39;x4&#39;),
+ (&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;),
+ (&#39;x1&#39;, &#39;x2&#39;, &#39;x4&#39;),
+ (&#39;x1&#39;, &#39;x3&#39;, &#39;x4&#39;),
+ (&#39;x2&#39;, &#39;x3&#39;, &#39;x4&#39;),
+ (&#39;x1&#39;, &#39;x2&#39;, &#39;x3&#39;, &#39;x4&#39;)]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Creamos un contenedor, para los modelos que desarrollaremos para cada combinación.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lista_modelos</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Obtenémos los modelos</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">combs</span><span class="p">)):</span>
+    <span class="n">modd</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~&#39;</span><span class="o">+</span><span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">combs</span><span class="p">[</span><span class="n">r</span><span class="p">])),</span>
+                             <span class="n">data</span><span class="o">=</span><span class="n">df_sc</span>
+                            <span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+    <span class="n">lista_modelos</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+        <span class="p">(</span>
+            <span class="s1">&#39;mod&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">),</span>
+            <span class="s1">&#39;y ~&#39;</span><span class="o">+</span><span class="s1">&#39; + &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">combs</span><span class="p">[</span><span class="n">r</span><span class="p">])),</span>
+            <span class="p">{</span><span class="s1">&#39;r-cuadrado&#39;</span><span class="p">:</span> <span class="n">modd</span><span class="o">.</span><span class="n">rsquared</span><span class="p">,</span>
+            <span class="s1">&#39;aic&#39;</span><span class="p">:</span><span class="n">modd</span><span class="o">.</span><span class="n">aic</span><span class="p">,</span>
+            <span class="s1">&#39;log-likelihood&#39;</span><span class="p">:</span><span class="n">modd</span><span class="o">.</span><span class="n">llf</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+                    
+                    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">lista_modelos</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[(&#39;mod0&#39;,
+  &#39;y ~x1&#39;,
+  {&#39;r-cuadrado&#39;: 0.060676510420669794,
+   &#39;aic&#39;: 243.62260015219076,
+   &#39;log-likelihood&#39;: -119.81130007609538}),
+ (&#39;mod1&#39;,
+  &#39;y ~x2&#39;,
+  {&#39;r-cuadrado&#39;: 0.14751020473919463,
+   &#39;aic&#39;: 240.51864221596253,
+   &#39;log-likelihood&#39;: -118.25932110798126}),
+ (&#39;mod2&#39;,
+  &#39;y ~x3&#39;,
+  {&#39;r-cuadrado&#39;: 0.09924028202169999,
+   &#39;aic&#39;: 242.28111580366064,
+   &#39;log-likelihood&#39;: -119.14055790183032}),
+ (&#39;mod3&#39;,
+  &#39;y ~x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.5062695044572013,
+   &#39;aic&#39;: 223.0411565845859,
+   &#39;log-likelihood&#39;: -109.52057829229295}),
+ (&#39;mod4&#39;,
+  &#39;y ~x1 + x2&#39;,
+  {&#39;r-cuadrado&#39;: 0.14761369254202905,
+   &#39;aic&#39;: 242.51475734750846,
+   &#39;log-likelihood&#39;: -118.25737867375423}),
+ (&#39;mod5&#39;,
+  &#39;y ~x1 + x3&#39;,
+  {&#39;r-cuadrado&#39;: 0.10054202023627734,
+   &#39;aic&#39;: 244.23483736724825,
+   &#39;log-likelihood&#39;: -119.11741868362412}),
+ (&#39;mod6&#39;,
+  &#39;y ~x1 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.7581571119493703,
+   &#39;aic&#39;: 202.20270793344955,
+   &#39;log-likelihood&#39;: -98.10135396672477}),
+ (&#39;mod7&#39;,
+  &#39;y ~x2 + x3&#39;,
+  {&#39;r-cuadrado&#39;: 0.15361337596449687,
+   &#39;aic&#39;: 242.28872282079422,
+   &#39;log-likelihood&#39;: -118.14436141039711}),
+ (&#39;mod8&#39;,
+  &#39;y ~x2 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.8962235977111219,
+   &#39;aic&#39;: 175.12911798913447,
+   &#39;log-likelihood&#39;: -84.56455899456724}),
+ (&#39;mod9&#39;,
+  &#39;y ~x3 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.9521302337181548,
+   &#39;aic&#39;: 150.3689744503232,
+   &#39;log-likelihood&#39;: -72.1844872251616}),
+ (&#39;mod10&#39;,
+  &#39;y ~x1 + x2 + x3&#39;,
+  {&#39;r-cuadrado&#39;: 0.15581057363069628,
+   &#39;aic&#39;: 244.20554364066817,
+   &#39;log-likelihood&#39;: -118.10277182033408}),
+ (&#39;mod11&#39;,
+  &#39;y ~x1 + x2 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.9255124070204923,
+   &#39;aic&#39;: 166.51772495552638,
+   &#39;log-likelihood&#39;: -79.25886247776319}),
+ (&#39;mod12&#39;,
+  &#39;y ~x1 + x3 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.9590353626760936,
+   &#39;aic&#39;: 147.38417666463545,
+   &#39;log-likelihood&#39;: -69.69208833231772}),
+ (&#39;mod13&#39;,
+  &#39;y ~x2 + x3 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.9549337668487922,
+   &#39;aic&#39;: 150.4377467519995,
+   &#39;log-likelihood&#39;: -71.21887337599975}),
+ (&#39;mod14&#39;,
+  &#39;y ~x1 + x2 + x3 + x4&#39;,
+  {&#39;r-cuadrado&#39;: 0.9621770360720396,
+   &#39;aic&#39;: 146.83080832058576,
+   &#39;log-likelihood&#39;: -68.41540416029288})]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Los modelos que contengan ambas variables ‘x2’ y ‘x3’, no serán tomados en cuenta debido a la alta correlación entre ellas.<br><br></p>
+<p>En la lista de arriba, los modelos 9 y 12 lucen con los mejores valores en el  criterio Akaike y  <i>Log-Likelihood</i>.<br><br></p>
+<p>AIC se considera mejor mientras menor valor, y <i>Log-Likelihood</i> se considera mejor a mayor valor.</p>
+<p>Probamos esos dos modelos: 9 y 12.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod9</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~ x3 + x4&#39;</span><span class="p">,</span>
+              <span class="n">data</span> <span class="o">=</span> <span class="n">df_sc</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">mod9</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.952</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.949</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   288.4</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>7.26e-20</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>10:21:36</td>     <th>  Log-Likelihood:    </th> <td> -72.184</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>    32</td>      <th>  AIC:               </th> <td>   150.4</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    29</td>      <th>  BIC:               </th> <td>   154.8</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     2</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>   19.6594</td> <td>    0.429</td> <td>   45.850</td> <td> 0.000</td> <td>   18.782</td> <td>   20.536</td>
+</tr>
+<tr>
+  <th>x3</th>        <td>   -7.7347</td> <td>    0.471</td> <td>  -16.435</td> <td> 0.000</td> <td>   -8.697</td> <td>   -6.772</td>
+</tr>
+<tr>
+  <th>x4</th>        <td>   10.6977</td> <td>    0.471</td> <td>   22.731</td> <td> 0.000</td> <td>    9.735</td> <td>   11.660</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 1.604</td> <th>  Durbin-Watson:     </th> <td>   1.970</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.448</td> <th>  Jarque-Bera (JB):  </th> <td>   1.055</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.085</td> <th>  Prob(JB):          </th> <td>   0.590</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 2.127</td> <th>  Cond. No.          </th> <td>    1.55</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mod12</span> <span class="o">=</span> <span class="n">smf</span><span class="o">.</span><span class="n">ols</span><span class="p">(</span><span class="s1">&#39;y ~x1 + x3 + x4&#39;</span><span class="p">,</span>
+              <span class="n">data</span> <span class="o">=</span> <span class="n">df_sc</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">()</span>
+
+<span class="n">mod12</span><span class="o">.</span><span class="n">summary</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><table class="simpletable">
+<caption>OLS Regression Results</caption>
+<tr>
+  <th>Dep. Variable:</th>            <td>y</td>        <th>  R-squared:         </th> <td>   0.959</td>
+</tr>
+<tr>
+  <th>Model:</th>                   <td>OLS</td>       <th>  Adj. R-squared:    </th> <td>   0.955</td>
+</tr>
+<tr>
+  <th>Method:</th>             <td>Least Squares</td>  <th>  F-statistic:       </th> <td>   218.5</td>
+</tr>
+<tr>
+  <th>Date:</th>             <td>Fri, 30 Jun 2023</td> <th>  Prob (F-statistic):</th> <td>1.59e-19</td>
+</tr>
+<tr>
+  <th>Time:</th>                 <td>10:21:36</td>     <th>  Log-Likelihood:    </th> <td> -69.692</td>
+</tr>
+<tr>
+  <th>No. Observations:</th>      <td>    32</td>      <th>  AIC:               </th> <td>   147.4</td>
+</tr>
+<tr>
+  <th>Df Residuals:</th>          <td>    28</td>      <th>  BIC:               </th> <td>   153.2</td>
+</tr>
+<tr>
+  <th>Df Model:</th>              <td>     3</td>      <th>                     </th>     <td> </td>   
+</tr>
+<tr>
+  <th>Covariance Type:</th>      <td>nonrobust</td>    <th>                     </th>     <td> </td>   
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+      <td></td>         <th>coef</th>     <th>std err</th>      <th>t</th>      <th>P>|t|</th>  <th>[0.025</th>    <th>0.975]</th>  
+</tr>
+<tr>
+  <th>Intercept</th> <td>   19.6594</td> <td>    0.404</td> <td>   48.702</td> <td> 0.000</td> <td>   18.832</td> <td>   20.486</td>
+</tr>
+<tr>
+  <th>x1</th>        <td>    1.2299</td> <td>    0.566</td> <td>    2.173</td> <td> 0.038</td> <td>    0.070</td> <td>    2.389</td>
+</tr>
+<tr>
+  <th>x3</th>        <td>   -6.8938</td> <td>    0.588</td> <td>  -11.718</td> <td> 0.000</td> <td>   -8.099</td> <td>   -5.689</td>
+</tr>
+<tr>
+  <th>x4</th>        <td>   10.7467</td> <td>    0.444</td> <td>   24.224</td> <td> 0.000</td> <td>    9.838</td> <td>   11.655</td>
+</tr>
+</table>
+<table class="simpletable">
+<tr>
+  <th>Omnibus:</th>       <td> 0.679</td> <th>  Durbin-Watson:     </th> <td>   2.187</td>
+</tr>
+<tr>
+  <th>Prob(Omnibus):</th> <td> 0.712</td> <th>  Jarque-Bera (JB):  </th> <td>   0.738</td>
+</tr>
+<tr>
+  <th>Skew:</th>          <td> 0.174</td> <th>  Prob(JB):          </th> <td>   0.692</td>
+</tr>
+<tr>
+  <th>Kurtosis:</th>      <td> 2.343</td> <th>  Cond. No.          </th> <td>    2.60</td>
+</tr>
+</table><br/><br/>Notes:<br/>[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.</div></div>
+</div>
+<p>Ambos modelos son bastante parecidos, excepto por la variable ‘x1’ en el modelo 12, que es significativa al 95%; pero no al 99%. La advertenicia sobre  <i>condition number</i> no aparece.<br><br></p>
+<p>El modelo 12, presenta mejores valores en <i>aic</i> y <i>log-likelihood</i>.
+<br><br>
+Mirémos algunos el comportamiento de los residuos y el VIF.</p>
+<section id="diagnosticos">
+<h2>Diagnósticos.<a class="headerlink" href="#diagnosticos" title="Permalink to this heading">#</a></h2>
+<p>En la documentación de <i>statsmodels</i>, se encuentra el código de una clase que sirve para obtener algunos diagnósticos, sobre residuos y otras magnitudes asociadas a la regresión.<br><br>.</p>
+<p>El siguiente código fue hecho usando a esa <i>clase</i> como referencia. Es conveniente porque permite la obtención de esos <i>diagnósticos</i> para diferentes modelos.<br><br></p>
+<p>Con el modulo <i>statsmodels</i>, se obtienen muchos tipos de gráficos directamente; sin embargo, no es sencillo adaptarlos para cambiar titulos y nombrar los ejes, a fin de cuentas es una de varias alternativas.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">statsmodels.regression.linear_model</span> <span class="kn">import</span> <span class="n">RegressionResultsWrapper</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">statsmodels.tools.tools</span> <span class="kn">import</span> <span class="n">maybe_unwrap_results</span>
+<span class="kn">from</span> <span class="nn">statsmodels.graphics.gofplots</span> <span class="kn">import</span> <span class="n">ProbPlot</span>
+<span class="kn">from</span> <span class="nn">statsmodels.stats.outliers_influence</span> <span class="kn">import</span> <span class="n">variance_inflation_factor</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Type</span>
+<span class="kn">from</span> <span class="nn">dataclasses</span> <span class="kn">import</span> <span class="n">dataclass</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">use</span><span class="p">(</span><span class="s1">&#39;seaborn-v0_8-whitegrid&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;text.usetex&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s1">&#39;figure.figsize&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@dataclass</span>
+<span class="k">class</span> <span class="nc">Diagnosticos</span><span class="p">:</span>
+    <span class="n">resultados</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">RegressionResultsWrapper</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="p">,</span> <span class="n">RegressionResultsWrapper</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;El objeto results debe ser instancia de RegressionResultsWrapper de Statsmodels&quot;</span><span class="p">)</span>
+        
+
+    <span class="k">def</span> <span class="nf">residuos_vs_ajustados</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Grafico para identificar no linealidad</span>
+
+<span class="sd">        si la línea roja es horizontal, indica que existe un</span>
+<span class="sd">        patrón lineal en los datos. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">fittedvalues</span>
+        <span class="n">residuos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">y_pred</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">residuos</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span>
+                  <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    
+        <span class="n">res_abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">residuos</span><span class="p">)</span>
+        <span class="n">res_abs_ord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">res_abs</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">prin_3res_abs</span> <span class="o">=</span> <span class="n">res_abs_ord</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prin_3res_abs</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                <span class="n">i</span><span class="p">,</span>
+                <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">residuos</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Gráfico de Residuos vs</span><span class="se">\n</span><span class="s1">Valores del Ajuste&#39;</span><span class="p">,</span>
+                     <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Valores del Ajuste&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Residuos&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span>
+    
+    <span class="k">def</span> <span class="nf">residuos_vs_exog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Grafico para identificar no linealidad</span>
+
+<span class="sd">        si la línea roja es horizontal, indica que existe un</span>
+<span class="sd">        patrón lineal en los datos. </span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">residuos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">resid</span><span class="p">)</span>
+        <span class="n">nombre</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">var</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span>
+    
+        
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+        
+        <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span>
+            <span class="n">x</span><span class="o">=</span><span class="n">v</span><span class="p">,</span>
+            <span class="n">y</span><span class="o">=</span><span class="n">residuos</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">linestyle</span> <span class="o">=</span> <span class="s1">&#39;--&#39;</span><span class="p">,</span>
+                  <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+    
+        <span class="n">res_abs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">residuos</span><span class="p">)</span>
+        <span class="n">res_abs_ord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">res_abs</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">prin_3res_abs</span> <span class="o">=</span> <span class="n">res_abs_ord</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">prin_3res_abs</span><span class="p">:</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                <span class="n">i</span><span class="p">,</span>
+                <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">residuos</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Gráfico de Residuos vs</span><span class="se">\n</span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                     <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Valores de </span><span class="si">{</span><span class="n">nombre</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Residuos&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span>
+
+    <span class="k">def</span> <span class="nf">__princip_resid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cuantiles</span><span class="p">,</span> <span class="n">ind_princ_res</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Función para generar indices y coordenadas</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val_influyentes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">get_influence</span><span class="p">()</span>
+        <span class="n">norm_res</span> <span class="o">=</span> <span class="n">val_influyentes</span><span class="o">.</span><span class="n">resid_studentized_internal</span>
+        
+        <span class="n">comp</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">ind_cuant</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">prev_neg</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">res_ind</span> <span class="ow">in</span> <span class="n">ind_princ_res</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="n">norm_res</span><span class="p">[</span><span class="n">res_ind</span><span class="p">]</span>
+            <span class="n">es_neg</span> <span class="o">=</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="n">prev_neg</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">prev_neg</span> <span class="o">==</span> <span class="n">es_neg</span><span class="p">:</span>
+                <span class="n">comp</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">ind_cuant</span> <span class="o">-=</span> <span class="n">comp</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">cuantiles</span><span class="p">[</span><span class="n">ind_cuant</span><span class="p">]</span> <span class="k">if</span> <span class="n">es_neg</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">cuantiles</span><span class="p">,</span> <span class="mi">0</span><span class="p">)[</span><span class="n">ind_cuant</span><span class="p">]</span>
+            <span class="n">ind_cuant</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">prev_neg</span> <span class="o">=</span> <span class="n">es_neg</span>
+            <span class="k">yield</span> <span class="n">res_ind</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+
+
+    <span class="k">def</span> <span class="nf">Normalidad_Residuos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Grafico de Residuos Estandarizados vs Cuantiles Teóricos</span>
+
+<span class="sd">        Para, mediante inspección visual, determinar si los residuos</span>
+<span class="sd">        estań normalmente distribuidos.</span>
+
+<span class="sd">        Si los puntos se disponen sobre la diagonal, indican normalidad</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">val_influyentes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">get_influence</span><span class="p">()</span>
+        <span class="n">norm_res</span> <span class="o">=</span> <span class="n">val_influyentes</span><span class="o">.</span><span class="n">resid_studentized_internal</span>
+        
+        <span class="k">if</span> <span class="n">ax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+
+        <span class="n">QQ</span> <span class="o">=</span> <span class="n">ProbPlot</span><span class="p">(</span><span class="n">norm_res</span><span class="p">)</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">QQ</span><span class="o">.</span><span class="n">qqplot</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="s1">&#39;45&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+
+        <span class="n">resNormValAbs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">flip</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">norm_res</span><span class="p">)),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">princ3ResNormValAbs</span> <span class="o">=</span> <span class="n">resNormValAbs</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__princip_resid</span><span class="p">(</span><span class="n">QQ</span><span class="o">.</span><span class="n">theoretical_quantiles</span><span class="p">,</span> <span class="n">princ3ResNormValAbs</span><span class="p">):</span>
+            <span class="n">ax</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span>
+                <span class="n">i</span><span class="p">,</span>
+                <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span>
+                <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s1">&#39;C3&#39;</span><span class="p">)</span>
+
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Normalidad de Residuos</span><span class="se">\n</span><span class="s1">(QQ Plot)&#39;</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Percentiles Teóricos&#39;</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Residuos Estandarizados&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ax</span>
+
+    <span class="k">def</span> <span class="nf">tabla_vif</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        VIF: factor de inflacioón de varianza</span>
+
+<span class="sd">        VIF &gt; 5 en una variable indica alta colinealidad con otras</span>
+<span class="sd">        variables</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">nom_de_vars</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog_names</span>
+        <span class="n">depvar</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resultados</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">exog</span>
+        <span class="n">vif_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+        <span class="n">vif_df</span><span class="p">[</span><span class="s2">&quot;Variables&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">nom_de_vars</span>
+        <span class="n">vif_df</span><span class="p">[</span><span class="s2">&quot;VIF&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">variance_inflation_factor</span><span class="p">(</span><span class="n">depvar</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">depvar</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">vif_df</span>
+                <span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;VIF&quot;</span><span class="p">)</span>
+                <span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span> <span class="o">=</span> <span class="n">Diagnosticos</span><span class="p">(</span><span class="n">mod9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_ajustados</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/977c1e64393e915958ccfa90657bf8a7d61caad12ecd17b88544219a8f11100a.png" src="_images/977c1e64393e915958ccfa90657bf8a7d61caad12ecd17b88544219a8f11100a.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_exog</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;x3&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/c01a2896a3042b8b9ebb9891ef699b97fb15fd5862a310f158f287e74fda6207.png" src="_images/c01a2896a3042b8b9ebb9891ef699b97fb15fd5862a310f158f287e74fda6207.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_exog</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;x4&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/a8ac23c4e9b00c30c159a4c5765d03fc14ab2f986f46e0520ee5a3c99e0ce20f.png" src="_images/a8ac23c4e9b00c30c159a4c5765d03fc14ab2f986f46e0520ee5a3c99e0ce20f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">Normalidad_Residuos</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/3861eeaaf0e3189f35b93fcf03c91a2d0fe193cf149de5c885b44647fe774849.png" src="_images/3861eeaaf0e3189f35b93fcf03c91a2d0fe193cf149de5c885b44647fe774849.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">tabla_vif</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Variables</th>
+      <th>VIF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>1.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>x3</td>
+      <td>1.2</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>x4</td>
+      <td>1.2</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Los residuos no parecen presentar patrones específicos, aunque se notan valores extremos, la hipótesis de normalidad de los residuos, no fue objetada en el <i>summary</i> con el <i>test</i> omnibus de Jarque-Bera, aunque visualmente, la alineación sobre la línea recta roja luce mucho menos que perfecta; y la multicolinealidad no luce problemática.</p>
+<p>Veámos el modelo 12</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span> <span class="o">=</span> <span class="n">Diagnosticos</span><span class="p">(</span><span class="n">mod12</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_ajustados</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/0b80170d41fdc8fd8b69211eeea65d7407d4db96f2436ab58d3d7cd9d803247f.png" src="_images/0b80170d41fdc8fd8b69211eeea65d7407d4db96f2436ab58d3d7cd9d803247f.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_exog</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;x1&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/d329ba6e88c757f398ca58ab28da452abb21c92f3be1252968ab0429e63a6aea.png" src="_images/d329ba6e88c757f398ca58ab28da452abb21c92f3be1252968ab0429e63a6aea.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_exog</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;x3&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/905a0201593b3d7a226a4487f5ebe1572c6be528eeca1ff688ab9e3c0f8c0b75.png" src="_images/905a0201593b3d7a226a4487f5ebe1572c6be528eeca1ff688ab9e3c0f8c0b75.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">residuos_vs_exog</span><span class="p">(</span><span class="n">df_sc</span><span class="p">[</span><span class="s1">&#39;x4&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/495c51286cff23489972bee6a0fd26fc5106c44597b67ff2144b719356419307.png" src="_images/495c51286cff23489972bee6a0fd26fc5106c44597b67ff2144b719356419307.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dgs</span><span class="o">.</span><span class="n">tabla_vif</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Variables</th>
+      <th>VIF</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Intercept</td>
+      <td>1.00</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>x4</td>
+      <td>1.21</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>x1</td>
+      <td>1.97</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>x3</td>
+      <td>2.12</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
+</div>
+<p>Ambos modelos, son bastante similares, los criterios Akaike y <i>Log-Likelihood</i>, parecen favorecer al modelo 12; pero esto podría ser debido a que tiene una variable más. El modelo 9, es más conciso, y preferiría ese; a menos que el 12 presentase mejor desempeño en un conjunto de datos nuevo, con las mismas variables. Para ello sería necesario encontrar ese conjunto de datos.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="regresion_lineal_simple.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Regresión Lineal Simple</p>
+      </div>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnosticos">Diagnósticos.</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Latesco
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
